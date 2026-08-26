@@ -681,8 +681,8 @@ if (window.visualViewport) {
 
 const splash = document.getElementById("splash");
 if (splash) {
-  splash.addEventListener("animationend", ev => {
-    if (ev.animationName === "splashOut") splash.classList.add("gone");
-  });
-  splash.addEventListener("click", () => splash.classList.add("gone"));
+  const closeSplash = () => splash.classList.add("gone");
+  const enter = document.getElementById("splash-enter");
+  if (enter) enter.addEventListener("click", ev => { ev.stopPropagation(); closeSplash(); });
+  splash.addEventListener("click", closeSplash);
 }

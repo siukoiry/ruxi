@@ -13,8 +13,29 @@
 </head>
 <body>
   <div id="splash" aria-hidden="true">
-    <img class="splash-img" src="./splash.jpg?v=1" alt="" />
-    <p class="splash-sign">灯一直开着。</p>
+    <div class="splash-orn splash-orn-tl"></div>
+    <div class="splash-orn splash-orn-tr"></div>
+    <div class="splash-orn splash-orn-bl"></div>
+    <div class="splash-orn splash-orn-br"></div>
+    <div class="splash-card">
+      <svg class="splash-mark" viewBox="0 0 160 200" aria-hidden="true">
+        <path d="M78 18h4v22h-4z" fill="#c9a3a8"/>
+        <rect x="52" y="38" width="56" height="88" rx="28" fill="#edcfd4"/>
+        <rect x="58" y="44" width="22" height="76" rx="4" fill="#f7e4e6"/>
+        <circle cx="76" cy="84" r="2.2" fill="#c4a574"/>
+        <ellipse cx="68" cy="148" rx="22" ry="26" fill="#f6f1ec"/>
+        <ellipse cx="56" cy="118" rx="7" ry="11" fill="#f6f1ec"/>
+        <ellipse cx="86" cy="132" rx="8" ry="6" fill="#f6f1ec"/>
+        <ellipse cx="60" cy="96" rx="5" ry="16" fill="#f6f1ec"/>
+        <ellipse cx="80" cy="98" rx="4.5" ry="15" fill="#f6f1ec"/>
+        <circle cx="63" cy="144" r="1.6" fill="#5a4450"/>
+        <circle cx="94" cy="168" r="7" fill="none" stroke="#c4a574" stroke-width="1.6"/>
+        <path d="M94 161v-8" stroke="#c4a574" stroke-width="1.4" fill="none"/>
+        <path d="M28 186h104" stroke="#e2c9c4" stroke-width="1"/>
+      </svg>
+      <p class="splash-sign">门开了一条缝。</p>
+      <button type="button" class="splash-enter" id="splash-enter">进入</button>
+    </div>
   </div>
   <div id="app">
     <section id="screen-chat" class="screen on">
@@ -182,10 +203,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=29"></script>
-  <script src="./js/render.js?v=29"></script>
-  <script src="./js/extra.js?v=29"></script>
-  <script src="./js/api.js?v=29"></script>
-  <script src="./js/app.js?v=29"></script>
+  <script src="./js/demo.js?v=28"></script>
+  <script src="./js/render.js?v=28"></script>
+  <script src="./js/extra.js?v=28"></script>
+  <script src="./js/api.js?v=28"></script>
+  <script src="./js/app.js?v=28"></script>
 </body>
 </html>
