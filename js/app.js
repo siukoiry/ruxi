@@ -1,70 +1,87 @@
 const streamEl = document.getElementById("stream");
-const kitEl = document.getElementById("kit-list");
-const jsonBox = document.getElementById("json-box");
 const callLayer = document.getElementById("call-layer");
 const history = [{ role: "system", content: "" }];
 
 initApiPanel();
 history[0].content = currentCfg().system || DEFAULT_SYSTEM;
 
-function mount(el, items) {
-  el.innerHTML = items.map(renderBlock).join("");
-  el.scrollTop = el.scrollHeight;
-}
-
 function add(item) {
   streamEl.insertAdjacentHTML("beforeend", renderBlock(item));
-  streamEl.parentElement.scrollTo({ top: 99999, behavior: "smooth" });
+  streamEl.scrollTop = streamEl.scrollHeight;
 }
 
-document.querySelectorAll(".tabs button").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("on"));
-    btn.classList.add("on");
-    document.querySelectorAll(".view").forEach(v => v.classList.remove("on"));
-    document.getElementById("view-" + btn.dataset.tab).classList.add("on");
-  };
+function openSheet(id) {
+  document.getElementById("sheet-" + id).hidden = false;
+}
+function closeSheet(id) {
+  document.getElementById("sheet-" + id).hidden = true;
+}
+
+document.querySelectorAll("[data-close]").forEach(el => {
+  el.onclick = () => closeSheet(el.dataset.close);
 });
 
-mount(streamEl, DEMO_STREAM);
-mount(kitEl, [
-  DEMO_STREAM[0],
-  { type: "call", from: "海口同城会", channel: "微信视频", status: "响铃中" },
-  { type: "wechat_private", name: "海口同城会", text: "今晚别出门" },
-  { type: "wechat_private", me: true, name: "我", text: "窗户已经扣上了" },
-  DEMO_STREAM[3],
-  DEMO_STREAM[2],
-  DEMO_STREAM[10],
-  DEMO_STREAM[11],
-  { type: "sms", from: "10086", text: "秀英区部分基站受台风影响短暂中断，预计今夜恢复。" }
-]);
+const INSERTS = [
+  ["场景卡", DEMO_STREAM[0]],
+  ["来电", null],
+  ["微博热搜", QUICK[0][1]],
+  ["微博正文", QUICK[3][1]],
+  ["朋友圈", DEMO_STREAM[3]],
+  ["私聊", QUICK[4][1]],
+  ["群聊", { type: "wechat_group", name: "海口同城会", text: "今晚别出门，秀英风已经很大了" }],
+  ["抖音", QUICK[2][1]],
+  ["短信", QUICK[1][1]],
+  ["外卖", DEMO_STREAM[9]],
+  ["状态", { type: "stats", items: [{ name: "信任", value: 37 }, { name: "恐惧", value: 54 }] }]
+];
 
-jsonBox.value = JSON.stringify(DEMO_JSON, null, 2);
-
-document.getElementById("btn-fill-demo").onclick = () => {
-  jsonBox.value = JSON.stringify(DEMO_JSON, null, 2);
-};
-
-document.getElementById("btn-render-json").onclick = () => {
-  try {
-    const data = JSON.parse(jsonBox.value);
-    const list = Array.isArray(data) ? data : [data];
-    mount(streamEl, list);
-    document.querySelector('[data-tab="stage"]').click();
-  } catch (e) {
-    jsonBox.style.borderColor = "#e6162d";
-    setTimeout(() => { jsonBox.style.borderColor = ""; }, 800);
-  }
-};
-
-const quick = document.getElementById("quick");
-QUICK.forEach(([label, item]) => {
+const insertBar = document.getElementById("insert-bar");
+INSERTS.forEach(([label, item]) => {
   const b = document.createElement("button");
   b.type = "button";
   b.textContent = label;
-  b.onclick = () => add(item);
-  quick.appendChild(b);
+  b.onclick = () => {
+    if (label === "来电") callLayer.hidden = false;
+    else add(item);
+    insertBar.hidden = true;
+  };
+  insertBar.appendChild(b);
 });
+
+document.getElementById("btn-plus").onclick = () => {
+  insertBar.hidden = !insertBar.hidden;
+};
+
+function fillModelList() {
+  const box = document.getElementById("model-list");
+  const cur = currentCfg().preset;
+  box.innerHTML = "";
+  Object.entries(PRESETS).forEach(([k, v]) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = v.label;
+    if (k === cur) b.classList.add("on");
+    b.onclick = () => {
+      document.getElementById("api-preset").value = k;
+      document.getElementById("api-preset").dispatchEvent(new Event("change"));
+      saveCfg(currentCfg());
+      refreshPill();
+      fillModelList();
+    };
+    box.appendChild(b);
+  });
+}
+
+document.getElementById("btn-model").onclick = () => {
+  fillModelList();
+  openSheet("model");
+};
+document.getElementById("btn-open-api").onclick = () => {
+  closeSheet("model");
+  openSheet("api");
+};
+
+add(DEMO_STREAM[0]);
 
 document.getElementById("composer").onsubmit = async e => {
   e.preventDefault();
@@ -73,24 +90,23 @@ document.getElementById("composer").onsubmit = async e => {
   if (!text) return;
   add({ type: "wechat_private", me: true, name: "我", text });
   input.value = "";
+  insertBar.hidden = true;
 
   if (!readyForModel()) {
     setTimeout(() => {
       add({ type: "wechat_private", name: "海口同城会", text: "先别下楼，风口在走廊。" });
-      add({ type: "stats", items: [{ name: "信任", value: 44 }, { name: "恐惧", value: 51 }] });
     }, 400);
     return;
   }
 
   history[0].content = currentCfg().system || DEFAULT_SYSTEM;
   history.push({ role: "user", content: text });
-  const btn = document.querySelector(".composer button");
+  const btn = document.querySelector(".composer [type=submit]");
   btn.disabled = true;
   btn.textContent = "…";
   try {
     const raw = await chatCompletions(history.slice(-12));
-    const blocks = extractBlocks(raw);
-    blocks.forEach(add);
+    extractBlocks(raw).forEach(add);
     history.push({ role: "assistant", content: raw });
   } catch (err) {
     add({ type: "header", text: "接口失败 · " + explainErr(err) });
@@ -100,9 +116,6 @@ document.getElementById("composer").onsubmit = async e => {
   }
 };
 
-document.getElementById("btn-call-demo").onclick = () => {
-  callLayer.hidden = false;
-};
 document.getElementById("btn-decline").onclick = () => {
   callLayer.hidden = true;
   add({ type: "call", from: "海口同城会", channel: "微信视频", status: "已拒绝" });
