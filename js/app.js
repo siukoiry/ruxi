@@ -117,6 +117,10 @@ function newThread(close = true) {
   const th = { id: uid(), project: state.project, title: "新窗口", items: [], updated: Date.now() };
   upsertThread(th);
   openThread(th.id);
+  if (state.project === "rp") {
+    const ch = extraState().chars.find(c => c.id === extraState().activeChar);
+    if (ch && ch.greeting) add({ kind: "plain", me: false, text: ch.greeting });
+  }
   renderThreadList();
   if (close) closeSheet("projects");
 }
@@ -130,7 +134,19 @@ function openThread(id) {
   setPlus();
   streamEl.innerHTML = "";
   (th.items || []).forEach(draw);
+  refreshEmpty();
   streamEl.scrollTop = streamEl.scrollHeight;
+}
+
+function refreshEmpty() {
+  const hint = document.getElementById("empty-hint");
+  const empty = !streamEl.children.length;
+  hint.hidden = !empty;
+  hint.textContent = {
+    work: "干活窗口。点右上角「示例」看排版，或直接打字。",
+    chat: "闲聊窗口。点「示例」看气泡长什么样。",
+    rp: "人设窗口。点 + 插入微博/来电，或点「示例」。"
+  }[state.project] || "";
 }
 
 function draw(item) {
@@ -144,6 +160,7 @@ function draw(item) {
 
 function add(item) {
   draw(item);
+  refreshEmpty();
   streamEl.scrollTop = streamEl.scrollHeight;
   const th = getThread(state.threadId);
   if (!th) return;
@@ -209,6 +226,7 @@ function renderRpTools() {
 document.getElementById("btn-projects").onclick = () => {
   renderProjTabs();
   renderRpTools();
+  renderPrompts();
   renderThreadList();
   openSheet("projects");
 };
@@ -499,4 +517,58 @@ document.getElementById("import-file").onchange = async e => {
     importAll(JSON.parse(await f.text()));
     location.reload();
   } catch { alert("导入失败"); }
+};
+
+document.getElementById("btn-demo").onclick = () => {
+  if (state.project === "rp") {
+    add(QUICK[0][1]);
+    add(QUICK[4][1]);
+    add({ type: "stats", items: [{ name: "信任", value: 41 }, { name: "心动", value: 28 }] });
+  } else {
+    add({ kind: "plain", me: false, text: DEMO_MD });
+  }
+};
+
+function renderPrompts() {
+  const box = document.getElementById("prompt-list");
+  const list = extraState().prompts || [];
+  if (!list.length) {
+    box.innerHTML = `<p class="empty">提示词会插入输入框，不需要模型。</p>`;
+    return;
+  }
+  box.innerHTML = list.map(pr => `<div class="thread-row">
+    <button type="button" class="thread" data-puse="${pr.id}"><strong>${escapeHtml(pr.name)}</strong></button>
+    <button type="button" class="rename" data-pedit="${pr.id}">改</button>
+    <button type="button" class="del" data-pdel="${pr.id}">删除</button>
+  </div>`).join("");
+  box.querySelectorAll("[data-puse]").forEach(b => b.onclick = () => {
+    const pr = extraState().prompts.find(x => x.id === b.dataset.puse);
+    if (!pr) return;
+    const input = document.getElementById("user-input");
+    input.value = (input.value + " " + pr.body).trim();
+    closeSheet("projects");
+    input.focus();
+  });
+  box.querySelectorAll("[data-pedit]").forEach(b => b.onclick = () => openPrompt(b.dataset.pedit));
+  box.querySelectorAll("[data-pdel]").forEach(b => b.onclick = () => { deletePrompt(b.dataset.pdel); renderPrompts(); });
+}
+let editingPrompt = null;
+function openPrompt(id) {
+  const pr = extraState().prompts.find(x => x.id === id) || { id: id || uid(), name: "", body: "" };
+  editingPrompt = pr.id;
+  document.getElementById("prompt-name").value = pr.name || "";
+  document.getElementById("prompt-body").value = pr.body || "";
+  openSheet("prompt");
+}
+document.getElementById("btn-new-prompt").onclick = () => openPrompt(uid());
+document.getElementById("btn-save-prompt").onclick = () => {
+  const name = document.getElementById("prompt-name").value.trim();
+  if (!name) return;
+  upsertPrompt({
+    id: editingPrompt || uid(),
+    name,
+    body: document.getElementById("prompt-body").value
+  });
+  closeSheet("prompt");
+  renderPrompts();
 };

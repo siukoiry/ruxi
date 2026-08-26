@@ -437,3 +437,8 @@ textarea {
 @media (prefers-color-scheme: light) {
   .md-code { background: #1111110d; }
 }
+.empty-hint {
+  color: var(--mute); font-size: 13px; line-height: 1.6;
+  padding: 28px 8px 0; margin: 0;
+}
+.empty-hint[hidden] { display: none; }

@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=14" />
+  <link rel="stylesheet" href="./css/app.css?v=15" />
 </head>
 <body>
   <div id="app">
@@ -19,9 +19,10 @@
         <div class="brand mid">
           <strong id="chat-title">新窗口</strong>
         </div>
-        <button type="button" class="ghost" id="btn-new-in-chat">新开</button>
+        <button type="button" class="ghost" id="btn-demo">示例</button>
       </header>
       <main class="view on chat-main">
+        <p id="empty-hint" class="empty-hint"></p>
         <section class="stream" id="stream"></section>
       </main>
       <footer class="dock">
@@ -59,6 +60,11 @@
         </div>
         <div id="char-list" class="thread-list"></div>
       </div>
+      <div id="prompt-tools">
+        <label>提示词库</label>
+        <div id="prompt-list" class="thread-list"></div>
+        <button type="button" class="ghost wide" id="btn-new-prompt">新提示词</button>
+      </div>
       <input id="thread-search" placeholder="搜索对话…" />
       <div class="row" style="margin:10px 0">
         <button type="button" class="primary sm" id="btn-new-thread">新窗口</button>
@@ -70,6 +76,19 @@
     </div>
   </div>
 
+  <div id="sheet-prompt" class="sheet" hidden>
+    <div class="sheet-bg" data-close="prompt"></div>
+    <div class="sheet-card">
+      <p class="sheet-title">提示词</p>
+      <label>名称</label>
+      <input id="prompt-name" placeholder="翻译腔 / 检查作业" />
+      <label>内容</label>
+      <textarea id="prompt-body" class="short" placeholder="会插入到输入框"></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="btn-save-prompt">保存</button>
+      </div>
+    </div>
+  </div>
   <div id="sheet-char" class="sheet" hidden>
     <div class="sheet-bg" data-close="char"></div>
     <div class="sheet-card tall">
@@ -155,10 +174,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=14"></script>
-  <script src="./js/render.js?v=14"></script>
-  <script src="./js/extra.js?v=14"></script>
-  <script src="./js/api.js?v=14"></script>
-  <script src="./js/app.js?v=14"></script>
+  <script src="./js/demo.js?v=15"></script>
+  <script src="./js/render.js?v=15"></script>
+  <script src="./js/extra.js?v=15"></script>
+  <script src="./js/api.js?v=15"></script>
+  <script src="./js/app.js?v=15"></script>
 </body>
 </html>

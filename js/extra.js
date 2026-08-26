@@ -42,6 +42,7 @@ function extraState() {
   if (!x.world) x.world = DEFAULT_WORLD;
   if (!Array.isArray(x.chars)) x.chars = [];
   if (!Array.isArray(x.keys)) x.keys = [];
+  if (!Array.isArray(x.prompts)) x.prompts = [];
   if (!Array.isArray(x.rules) || !x.rules.length) {
     x.rules = DEFAULT_RULES.map(r => ({ ...r }));
     if (x.world && x.world !== DEFAULT_WORLD) {
@@ -135,3 +136,32 @@ function setActiveKey(id) {
   x.activeKey = id;
   saveExtra(x);
 }
+
+function upsertPrompt(pr) {
+  const x = extraState();
+  const i = x.prompts.findIndex(p => p.id === pr.id);
+  if (i >= 0) x.prompts[i] = pr; else x.prompts.push(pr);
+  saveExtra(x);
+}
+function deletePrompt(id) {
+  const x = extraState();
+  x.prompts = x.prompts.filter(p => p.id !== id);
+  saveExtra(x);
+}
+
+const DEMO_MD = `## 示例排版
+这是**不接模型**也能看见的回复样子。
+
+- 第一点
+- 第二点
+- 第三点
+
+一段 \`inline code\`。
+
+` + "```" + `
+function hello() {
+  return "人设";
+}
+` + "```" + `
+
+> 引用看起来会是这样。`;
