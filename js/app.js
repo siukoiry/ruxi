@@ -583,7 +583,7 @@ function renderPrompts() {
     input.focus();
   });
   box.querySelectorAll("[data-pedit]").forEach(b => b.onclick = () => openPrompt(b.dataset.pedit));
-  box.querySelectorAll("[data-pdel]").forEach(b => b.onclick = () => { deletePrompt(b.dataset.pdel); renderPrompts(); });
+  box.querySelectorAll("[data-pdel]").forEach(b => b.onclick = () => { deletePrompt(b.dataset.pdel); renderPrompts(); renderPromptChips(); });
 }
 let editingPrompt = null;
 function openPrompt(id) {
@@ -604,6 +604,7 @@ document.getElementById("btn-save-prompt").onclick = () => {
   });
   closeSheet("prompt");
   renderPrompts();
+  renderPromptChips();
 };
 
 function moveRule(id, dir) {
@@ -622,7 +623,10 @@ function renderPromptChips() {
   if (!box) return;
   const list = extraState().prompts || [];
   if (!list.length) { box.innerHTML = ""; return; }
-  box.innerHTML = list.map(pr => `<button type="button" data-chip="${pr.id}">${escapeHtml(pr.name)}</button>`).join("");
+  box.innerHTML = list.map(pr => `<span class="chip-wrap">
+      <button type="button" data-chip="${pr.id}">${escapeHtml(pr.name)}</button>
+      <button type="button" class="chip-x" data-x="${pr.id}" aria-label="删除">×</button>
+    </span>`).join("");
   box.querySelectorAll("[data-chip]").forEach(b => {
     b.onclick = () => {
       const pr = extraState().prompts.find(x => x.id === b.dataset.chip);
@@ -630,6 +634,14 @@ function renderPromptChips() {
       const input = document.getElementById("user-input");
       input.value = (input.value + " " + pr.body).trim();
       input.focus();
+    };
+  });
+  box.querySelectorAll("[data-x]").forEach(b => {
+    b.onclick = ev => {
+      ev.stopPropagation();
+      deletePrompt(b.dataset.x);
+      renderPromptChips();
+      renderPrompts();
     };
   });
 }

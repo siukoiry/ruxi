@@ -479,3 +479,8 @@ body[data-mode="box"] .wx-msg.me .bubble {
   width: auto;
   max-width: 92%;
 }
+.chip-wrap { display: inline-flex; align-items: center; }
+.chip-x {
+  border: 0; background: transparent; color: var(--mute);
+  padding: 0 6px 0 2px; font-size: 14px; line-height: 1;
+}
