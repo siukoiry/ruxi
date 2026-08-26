@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=5" />
+  <link rel="stylesheet" href="./css/app.css?v=6" />
 </head>
 <body>
   <div id="app">
@@ -26,12 +26,21 @@
       </main>
       <footer class="dock">
         <div id="insert-bar" class="insert-bar" hidden></div>
+        <div class="tools">
+          <button type="button" id="btn-model" class="model-chip">未接模型</button>
+          <button type="button" id="btn-web" class="tool">联网</button>
+        </div>
         <form id="composer" class="composer">
           <button type="button" id="btn-plus" class="icon-btn" hidden>+</button>
+          <button type="button" id="btn-file" class="icon-btn" aria-label="上传">📎</button>
+          <input id="file-input" type="file" hidden multiple accept="image/*,.txt,.md,.json,.csv,.pdf" />
           <input id="user-input" autocomplete="off" placeholder="说一句…" />
-          <button type="button" id="btn-model" class="model-chip">未接模型</button>
-          <button type="submit">发送</button>
+          <button type="button" id="btn-mic" class="icon-btn" aria-label="语音">🎤</button>
+          <button type="submit" class="send" aria-label="发送">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-7 7M12 5l7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </form>
+        <div id="attach-preview" class="attach-preview" hidden></div>
       </footer>
     </section>
   </div>
@@ -94,9 +103,9 @@
     </div>
   </div>
 
-  <script src="./js/demo.js?v=5"></script>
-  <script src="./js/render.js?v=5"></script>
-  <script src="./js/api.js?v=5"></script>
-  <script src="./js/app.js?v=5"></script>
+  <script src="./js/demo.js?v=6"></script>
+  <script src="./js/render.js?v=6"></script>
+  <script src="./js/api.js?v=6"></script>
+  <script src="./js/app.js?v=6"></script>
 </body>
 </html>

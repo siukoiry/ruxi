@@ -238,18 +238,89 @@ function fillModelList() {
 document.getElementById("btn-model").onclick = () => { fillModelList(); openSheet("model"); };
 document.getElementById("btn-open-api").onclick = () => { closeSheet("model"); openSheet("api"); };
 
+let pending = [];
+let webOn = false;
+document.getElementById("btn-web").onclick = () => {
+  webOn = !webOn;
+  document.getElementById("btn-web").classList.toggle("on", webOn);
+};
+
+function renderPending() {
+  const box = document.getElementById("attach-preview");
+  if (!pending.length) { box.hidden = true; box.innerHTML = ""; return; }
+  box.hidden = false;
+  box.innerHTML = pending.map((f, i) => f.thumb
+    ? `<img src="${f.thumb}" alt="">`
+    : `<span class="chip">${escapeHtml(f.name)}</span>`).join("");
+}
+
+document.getElementById("btn-file").onclick = () => document.getElementById("file-input").click();
+document.getElementById("file-input").onchange = async e => {
+  for (const file of [...e.target.files]) {
+    const item = { name: file.name, type: file.type, text: "", data: "", thumb: "" };
+    if (file.type.startsWith("image/")) {
+      const url = await new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(file); });
+      item.data = url; item.thumb = url;
+    } else if (file.size < 200000 && /text|json|csv|markdown/.test(file.type + file.name)) {
+      item.text = await file.text();
+    } else {
+      item.text = "（已附文件 " + file.name + "，前端无法解析内容）";
+    }
+    pending.push(item);
+  }
+  e.target.value = "";
+  renderPending();
+};
+
+async function webSearch(q) {
+  const url = "https://zh.wikipedia.org/w/api.php?action=opensearch&limit=5&namespace=0&origin=*&search=" + encodeURIComponent(q);
+  const res = await fetch(url);
+  const data = await res.json();
+  const titles = data[1] || [], descs = data[2] || [], links = data[3] || [];
+  if (!titles.length) return "";
+  return titles.map((t, i) => `- ${t}：${descs[i] || ""} ${links[i] || ""}`).join("\n");
+}
+
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, recOn = false;
+if (SpeechRec) {
+  rec = new SpeechRec();
+  rec.lang = "zh-CN";
+  rec.interimResults = false;
+  rec.onresult = ev => {
+    const said = ev.results[0][0].transcript;
+    const input = document.getElementById("user-input");
+    input.value = (input.value + " " + said).trim();
+  };
+  rec.onend = () => {
+    recOn = false;
+    document.getElementById("btn-mic").classList.remove("rec");
+  };
+}
+document.getElementById("btn-mic").onclick = () => {
+  if (!rec) { alert("这台浏览器不支持语音识别，iPhone 请用 Safari。"); return; }
+  if (recOn) { rec.stop(); return; }
+  recOn = true;
+  document.getElementById("btn-mic").classList.add("rec");
+  rec.start();
+};
+
 document.getElementById("composer").onsubmit = async e => {
   e.preventDefault();
   const input = document.getElementById("user-input");
   const text = input.value.trim();
-  if (!text) return;
-  add({ kind: "plain", me: true, text });
+  if (!text && !pending.length) return;
+  const files = pending.slice();
+  pending = [];
+  renderPending();
+  const show = text + (files.length ? "\n" + files.map(f => "[附件: " + f.name + "]").join(" ") : "");
+  add({ kind: "plain", me: true, text: show, files });
   input.value = "";
   insertBar.hidden = true;
 
   if (!readyForModel()) {
     const fallback = {
-      work: "还没接模型。点输入框旁的模型名称填 Key。",
+      work: "还没接模型。点左下角模型名称填 Key。",
       chat: "先聊着。接上模型之后就会正经回你。",
       rp: "模型还没接。点 + 可以先插入微博、来电、朋友圈。"
     }[state.project];
@@ -258,9 +329,26 @@ document.getElementById("composer").onsubmit = async e => {
   }
 
   const btn = document.querySelector(".composer [type=submit]");
-  btn.disabled = true; btn.textContent = "…";
+  btn.disabled = true;
   try {
-    const raw = await chatCompletions(historyFromThread().slice(-16));
+    let extra = "";
+    if (webOn && text) {
+      try { extra = await webSearch(text); } catch {}
+      if (extra) extra = "\n\n参考搜索：\n" + extra;
+    }
+    const msgs = historyFromThread().slice(-16);
+    const last = msgs[msgs.length - 1];
+    if (last && last.role === "user") {
+      const imgs = files.filter(f => f.data);
+      const bits = files.filter(f => f.text).map(f => "文件 " + f.name + ":\n" + f.text.slice(0, 4000));
+      const body = (typeof last.content === "string" ? last.content : "") + extra + (bits.length ? "\n" + bits.join("\n") : "");
+      if (imgs.length) {
+        last.content = [{ type: "text", text: body || "请看图" }].concat(
+          imgs.map(f => ({ type: "image_url", image_url: { url: f.data } }))
+        );
+      } else last.content = body;
+    }
+    const raw = await chatCompletions(msgs);
     if (state.project === "rp") {
       try { extractBlocks(raw).forEach(add); }
       catch { add({ kind: "plain", me: false, text: raw }); }
@@ -270,7 +358,7 @@ document.getElementById("composer").onsubmit = async e => {
   } catch (err) {
     add({ kind: "plain", me: false, text: "接口失败 · " + explainErr(err) });
   } finally {
-    btn.disabled = false; btn.textContent = "发送";
+    btn.disabled = false;
   }
 };
 
