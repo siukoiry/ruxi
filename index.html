@@ -9,12 +9,12 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=27" />
+  <link rel="stylesheet" href="./css/app.css?v=28" />
 </head>
 <body>
   <div id="splash" aria-hidden="true">
-    <img src="./icon.png" alt="" />
-    <b>人设</b>
+    <img class="splash-img" src="./splash.jpg" alt="" />
+    <p class="splash-sign">灯一直开着。</p>
   </div>
   <div id="app">
     <section id="screen-chat" class="screen on">
@@ -182,10 +182,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=27"></script>
-  <script src="./js/render.js?v=27"></script>
-  <script src="./js/extra.js?v=27"></script>
-  <script src="./js/api.js?v=27"></script>
-  <script src="./js/app.js?v=27"></script>
+  <script src="./js/demo.js?v=28"></script>
+  <script src="./js/render.js?v=28"></script>
+  <script src="./js/extra.js?v=28"></script>
+  <script src="./js/api.js?v=28"></script>
+  <script src="./js/app.js?v=28"></script>
 </body>
 </html>
