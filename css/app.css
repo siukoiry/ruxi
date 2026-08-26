@@ -88,7 +88,7 @@ body { padding: 0; }
   background: transparent; color: var(--dim);
   padding: 8px 12px; border-radius: 999px; font-size: 13px;
 }
-.tabs button.on { background: #1c1c20; color: #fff; }
+.tabs button.on { background: #1c1c20; color: var(--text); }
 
 .view { display: none; flex: 1; padding: 0 16px 8px; min-height: 0; }
 .view.on { display: flex; flex-direction: column; }
@@ -112,7 +112,7 @@ body { padding: 0; }
 }
 .icon-btn {
   width: 36px; height: 36px; border-radius: 50%; border: 0;
-  background: #1c1c20; color: #fff; font-size: 20px; line-height: 1;
+  background: #1c1c20; color: var(--text); font-size: 20px; line-height: 1;
 }
 .model-chip {
   border: 0; background: #1c1c20; color: #cfcfd4;
@@ -136,7 +136,7 @@ body { padding: 0; }
 .model-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
 .model-list button {
   text-align: left; border: 1px solid var(--line); background: #101012;
-  color: #fff; border-radius: 12px; padding: 10px 12px; font-size: 13px;
+  color: var(--text); border-radius: 12px; padding: 10px 12px; font-size: 13px;
 }
 .model-list button.on { border-color: #3ecf7a; }
 .wide { width: 100%; margin-top: 4px; }
@@ -147,7 +147,7 @@ body { padding: 0; }
   position: sticky; bottom: 0; background: linear-gradient(transparent, var(--bg) 30%);
 }
 .composer input {
-  flex: 1; border: 0; background: var(--sheet); color: #fff;
+  flex: 1; border: 0; background: var(--sheet); color: var(--text);
   border-radius: 22px; padding: 11px 14px; font: inherit; outline: none;
 }
 .composer button, .primary {
@@ -169,7 +169,7 @@ label {
 }
 #sheet-api input, #sheet-api select, textarea.short {
   width: 100%; border: 1px solid var(--line); background: #101012;
-  color: #fff; border-radius: 12px; padding: 10px 12px; font: inherit;
+  color: var(--text); border-radius: 12px; padding: 10px 12px; font: inherit;
   outline: none;
 }
 textarea.short { min-height: 140px; font-size: 12px; line-height: 1.5; }
@@ -209,7 +209,7 @@ textarea {
 .call-card .sub { color: var(--dim); font-size: 12px; margin: 6px 0 16px; }
 .btns { display: flex; justify-content: center; gap: 28px; }
 .round {
-  width: 58px; height: 58px; border-radius: 50%; border: 0; color: #fff;
+  width: 58px; height: 58px; border-radius: 50%; border: 0; color: var(--text);
   font-size: 12px; cursor: pointer;
 }
 .round.red { background: #e11d2e; }
@@ -318,7 +318,7 @@ textarea {
 .projects { padding: 8px 16px 24px; display: flex; flex-direction: column; gap: 12px; }
 .project {
   text-align: left; border: 1px solid #1d1d22; background: var(--card);
-  color: #fff; border-radius: 16px; padding: 16px; font: inherit;
+  color: var(--text); border-radius: 16px; padding: 16px; font: inherit;
 }
 .project strong { display: block; font-size: 18px; }
 .project span { display: block; color: var(--dim); font-size: 13px; margin: 6px 0 8px; }
@@ -326,7 +326,7 @@ textarea {
 .thread-list { padding: 4px 16px 24px; display: flex; flex-direction: column; gap: 8px; }
 .thread {
   text-align: left; border: 1px solid #1d1d22; background: var(--card);
-  color: #fff; border-radius: 14px; padding: 12px 14px; font: inherit;
+  color: var(--text); border-radius: 14px; padding: 12px 14px; font: inherit;
 }
 .thread strong { display: block; font-size: 14px; }
 .thread span { color: var(--mute); font-size: 11px; }
@@ -339,7 +339,7 @@ textarea {
   flex: 1; border: 1px solid var(--line); background: #101012; color: #ccc;
   border-radius: 999px; padding: 8px 0; font-size: 13px;
 }
-.proj-tabs button.on { background: #fff; color: #111; border-color: #fff; }
+.proj-tabs button.on { background: #fff; color: #111; border-color: var(--text); }
 .thread-row { display: flex; gap: 8px; align-items: center; }
 .thread-row .thread { flex: 1; }
 .del {
@@ -564,3 +564,19 @@ body[data-mode="box"] #btn-plus { display: none !important; }
 }
 .dock { padding-left: 12px; padding-right: 12px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
 .tools { padding-bottom: 6px; }
+
+.proj-tabs button.on { background: var(--text); color: var(--bg); }
+.thread { color: var(--text); background: var(--card); }
+.thread strong { color: var(--text); }
+.project { color: var(--text); }
+.composer {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.composer input { width: 100%; min-width: 0; }
+body[data-mode="phone"] #btn-file { display: none !important; }
+body[data-mode="box"] #btn-plus { display: none !important; }
+.send { justify-self: end; }
