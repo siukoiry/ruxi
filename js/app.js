@@ -140,6 +140,7 @@ function openThread(id) {
 
 function refreshEmpty() {
   const hint = document.getElementById("empty-hint");
+  if (!hint) return;
   const empty = !streamEl.children.length;
   hint.hidden = !empty;
   hint.textContent = {
@@ -231,7 +232,6 @@ document.getElementById("btn-projects").onclick = () => {
   openSheet("projects");
 };
 document.getElementById("btn-new-thread").onclick = () => newThread(true);
-document.getElementById("btn-new-in-chat").onclick = () => newThread(true);
 
 document.querySelectorAll("[data-close]").forEach(el => {
   el.onclick = () => closeSheet(el.dataset.close);
