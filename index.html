@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=12" />
+  <link rel="stylesheet" href="./css/app.css?v=13" />
 </head>
 <body>
   <div id="app">
@@ -105,9 +105,12 @@
   <div id="sheet-model" class="sheet" hidden>
     <div class="sheet-bg" data-close="model"></div>
     <div class="sheet-card">
-      <p class="sheet-title">切换模型</p>
+      <p class="sheet-title">钥匙</p>
+      <p class="hint">已保存的在上面，点名称切换。下面是厂商预设。</p>
+      <div id="key-list" class="thread-list"></div>
+      <p class="sheet-title" style="margin-top:14px">预设</p>
       <div id="model-list" class="model-list"></div>
-      <button type="button" id="btn-open-api" class="ghost wide">接口与密钥</button>
+      <button type="button" id="btn-open-api" class="ghost wide">新增 / 编辑接口</button>
     </div>
   </div>
 
@@ -152,10 +155,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=12"></script>
-  <script src="./js/render.js?v=12"></script>
-  <script src="./js/extra.js?v=12"></script>
-  <script src="./js/api.js?v=12"></script>
-  <script src="./js/app.js?v=12"></script>
+  <script src="./js/demo.js?v=13"></script>
+  <script src="./js/render.js?v=13"></script>
+  <script src="./js/extra.js?v=13"></script>
+  <script src="./js/api.js?v=13"></script>
+  <script src="./js/app.js?v=13"></script>
 </body>
 </html>

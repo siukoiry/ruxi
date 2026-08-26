@@ -115,3 +115,15 @@ function importAll(obj) {
   if (obj.threads) localStorage.setItem("ruxi.threads.v2", JSON.stringify(obj.threads));
   if (obj.api) localStorage.setItem("ruxi.api.v1", JSON.stringify(obj.api));
 }
+
+function deleteKey(id) {
+  const x = extraState();
+  x.keys = (x.keys || []).filter(k => k.id !== id);
+  if (x.activeKey === id) x.activeKey = "";
+  saveExtra(x);
+}
+function setActiveKey(id) {
+  const x = extraState();
+  x.activeKey = id;
+  saveExtra(x);
+}

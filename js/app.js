@@ -252,17 +252,37 @@ function fillModelList() {
   const box = document.getElementById("model-list");
   const cur = currentCfg().preset;
   box.innerHTML = "";
-  extraState().keys.forEach(row => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = row.label + " · " + (row.model || "");
+  const keys = extraState().keys || [];
+  const kl = document.getElementById("key-list");
+  const active = extraState().activeKey;
+  if (!keys.length) kl.innerHTML = `<p class="empty">还没有保存的钥匙。</p>`;
+  else kl.innerHTML = keys.map(row => `<div class="thread-row">
+    <button type="button" class="thread ${row.id === active ? "on" : ""}" data-kid="${row.id}"><strong>${escapeHtml(row.label)}</strong><span>${escapeHtml(row.model || row.preset || "")}</span></button>
+    <button type="button" class="rename" data-kedit="${row.id}">改</button>
+    <button type="button" class="del" data-kdel="${row.id}">删除</button>
+  </div>`).join("");
+  kl.querySelectorAll("[data-kid]").forEach(b => b.onclick = () => {
+    const row = extraState().keys.find(k => k.id === b.dataset.kid);
+    if (!row) return;
+    applyCfg(row);
+    if (document.getElementById("api-label")) document.getElementById("api-label").value = row.label || "";
+    saveCfg(currentCfg());
+    setActiveKey(row.id);
+    refreshPill();
+    closeSheet("model");
+  });
+  kl.querySelectorAll("[data-kedit]").forEach(b => {
     b.onclick = () => {
+      const row = extraState().keys.find(k => k.id === b.dataset.kedit);
+      if (!row) return;
       applyCfg(row);
-      saveCfg(currentCfg());
-      refreshPill();
+      document.getElementById("api-label").value = row.label || "";
       closeSheet("model");
+      openSheet("api");
     };
-    box.appendChild(b);
+  });
+  kl.querySelectorAll("[data-kdel]").forEach(b => {
+    b.onclick = () => { deleteKey(b.dataset.kdel); fillModelList(); refreshPill(); };
   });
   Object.entries(PRESETS).forEach(([k, v]) => {
     const b = document.createElement("button");
