@@ -678,3 +678,11 @@ if (window.visualViewport) {
   visualViewport.addEventListener("scroll", fitViewport);
   fitViewport();
 }
+
+const splash = document.getElementById("splash");
+if (splash) {
+  splash.addEventListener("animationend", ev => {
+    if (ev.animationName === "splashOut") splash.classList.add("gone");
+  });
+  splash.addEventListener("click", () => splash.classList.add("gone"));
+}
