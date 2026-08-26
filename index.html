@@ -8,43 +8,16 @@
   <meta name="theme-color" content="#070708" />
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
-  <title>入戏</title>
-  <link rel="stylesheet" href="./css/app.css?v=3" />
+  <title>人设</title>
+  <link rel="stylesheet" href="./css/app.css?v=4" />
 </head>
 <body>
   <div id="app">
-    <section id="screen-home" class="screen on">
+    <section id="screen-chat" class="screen on">
       <header class="topbar">
-        <div class="brand">
-          <img class="mark-img" src="./icon.png" alt="" />
-          <div>
-            <strong>入戏</strong>
-            <em>选一个空间</em>
-          </div>
-        </div>
-        <button type="button" id="btn-home-model" class="ghost">模型</button>
-      </header>
-      <div class="projects" id="projects"></div>
-    </section>
-
-    <section id="screen-list" class="screen">
-      <header class="topbar">
-        <button type="button" class="ghost" id="btn-back-home">返回</button>
+        <button type="button" class="ghost" id="btn-projects">项目</button>
         <div class="brand mid">
-          <strong id="list-title">对话</strong>
-          <em id="list-sub"></em>
-        </div>
-        <button type="button" class="primary sm" id="btn-new-thread">新窗口</button>
-      </header>
-      <div class="thread-list" id="thread-list"></div>
-    </section>
-
-    <section id="screen-chat" class="screen">
-      <header class="topbar">
-        <button type="button" class="ghost" id="btn-back-list">对话</button>
-        <div class="brand mid">
-          <strong id="chat-title">新对话</strong>
-          <em id="chat-sub">入戏</em>
+          <strong id="chat-title">新窗口</strong>
         </div>
         <button type="button" class="ghost" id="btn-new-in-chat">新开</button>
       </header>
@@ -61,6 +34,18 @@
         </form>
       </footer>
     </section>
+  </div>
+
+  <div id="sheet-projects" class="sheet" hidden>
+    <div class="sheet-bg" data-close="projects"></div>
+    <div class="sheet-card tall">
+      <p class="sheet-title">项目</p>
+      <div class="proj-tabs" id="proj-tabs"></div>
+      <div class="row" style="margin:10px 0">
+        <button type="button" class="primary sm" id="btn-new-thread">新窗口</button>
+      </div>
+      <div class="thread-list" id="thread-list"></div>
+    </div>
   </div>
 
   <div id="sheet-model" class="sheet" hidden>
@@ -109,9 +94,9 @@
     </div>
   </div>
 
-  <script src="./js/demo.js?v=3"></script>
-  <script src="./js/render.js?v=3"></script>
-  <script src="./js/api.js?v=3"></script>
-  <script src="./js/app.js?v=3"></script>
+  <script src="./js/demo.js?v=4"></script>
+  <script src="./js/render.js?v=4"></script>
+  <script src="./js/api.js?v=4"></script>
+  <script src="./js/app.js?v=4"></script>
 </body>
 </html>

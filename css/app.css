@@ -311,3 +311,16 @@ textarea {
 .empty { color: var(--dim); font-size: 13px; padding: 24px 8px; }
 .chat-main { flex: 1; min-height: 0; padding: 0 16px; }
 #app { min-height: 100dvh; }
+
+.proj-tabs { display: flex; gap: 6px; }
+.proj-tabs button {
+  flex: 1; border: 1px solid var(--line); background: #101012; color: #ccc;
+  border-radius: 999px; padding: 8px 0; font-size: 13px;
+}
+.proj-tabs button.on { background: #fff; color: #111; border-color: #fff; }
+.thread-row { display: flex; gap: 8px; align-items: center; }
+.thread-row .thread { flex: 1; }
+.del {
+  border: 0; background: #2a1518; color: #ff8b8b;
+  border-radius: 10px; padding: 10px 10px; font-size: 12px;
+}
