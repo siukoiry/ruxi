@@ -645,3 +645,16 @@ function renderPromptChips() {
     };
   });
 }
+
+function pressTarget(e) {
+  return e.target.closest("button, .project, .thread");
+}
+document.addEventListener("pointerdown", e => {
+  const el = pressTarget(e);
+  if (el) el.classList.add("pressed");
+});
+["pointerup", "pointercancel", "pointerleave"].forEach(ev => {
+  document.addEventListener(ev, e => {
+    document.querySelectorAll(".pressed").forEach(el => el.classList.remove("pressed"));
+  });
+});
