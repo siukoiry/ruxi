@@ -537,3 +537,22 @@ button.pressed, .project.pressed, .thread.pressed {
 }
 .top-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .chat-main, .stream { background: var(--bg); }
+
+html, body, #app { overscroll-behavior: none; touch-action: manipulation; }
+.topbar { flex-direction: column; align-items: stretch; gap: 4px; padding: 6px 14px 8px; }
+.top-row { display: flex; justify-content: space-between; align-items: center; }
+.chat-title {
+  display: block; font-size: 13px; font-weight: 600; color: var(--dim);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#btn-plus[hidden], .icon-btn[hidden], button[hidden] { display: none !important; visibility: hidden !important; }
+body[data-mode="box"] #btn-plus { display: none !important; }
+.wx-msg .bubble, body[data-mode="box"] .wx-msg .bubble {
+  color: var(--text) !important;
+}
+@media (prefers-color-scheme: light) {
+  .wx-msg .bubble { background: #e8e8ed; color: #111 !important; }
+  .wx-msg.me .bubble { background: #95ec69; color: #08210f !important; }
+  body[data-mode="box"] .wx-msg .bubble { background: #fff; border: 1px solid #e4e4ea; }
+  body[data-mode="box"] .wx-msg.me .bubble { background: #ececf0; }
+}

@@ -658,3 +658,8 @@ document.addEventListener("pointerdown", e => {
     document.querySelectorAll(".pressed").forEach(el => el.classList.remove("pressed"));
   });
 });
+
+document.addEventListener("touchmove", e => {
+  if (e.target.closest(".stream, .sheet-card, textarea, input, .thread-list, .insert-bar, .prompt-chips")) return;
+  e.preventDefault();
+}, { passive: false });
