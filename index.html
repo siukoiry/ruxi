@@ -13,29 +13,54 @@
 </head>
 <body>
   <div id="app">
-    <header class="topbar">
-      <div class="brand">
-        <img class="mark-img" src="./icon.png" alt="" />
-        <div>
-          <strong>入戏</strong>
-          <em id="subline">对话</em>
+    <section id="screen-home" class="screen on">
+      <header class="topbar">
+        <div class="brand">
+          <img class="mark-img" src="./icon.png" alt="" />
+          <div>
+            <strong>入戏</strong>
+            <em>选一个空间</em>
+          </div>
         </div>
-      </div>
-    </header>
+        <button type="button" id="btn-home-model" class="ghost">模型</button>
+      </header>
+      <div class="projects" id="projects"></div>
+    </section>
 
-    <main id="view-stage" class="view on">
-      <section class="stream" id="stream"></section>
-    </main>
+    <section id="screen-list" class="screen">
+      <header class="topbar">
+        <button type="button" class="ghost" id="btn-back-home">返回</button>
+        <div class="brand mid">
+          <strong id="list-title">对话</strong>
+          <em id="list-sub"></em>
+        </div>
+        <button type="button" class="primary sm" id="btn-new-thread">新窗口</button>
+      </header>
+      <div class="thread-list" id="thread-list"></div>
+    </section>
 
-    <footer class="dock">
-      <div id="insert-bar" class="insert-bar" hidden></div>
-      <form id="composer" class="composer">
-        <button type="button" id="btn-plus" class="icon-btn" aria-label="插入">+</button>
-        <input id="user-input" autocomplete="off" placeholder="说一句…" />
-        <button type="button" id="btn-model" class="model-chip">未接模型</button>
-        <button type="submit">发送</button>
-      </form>
-    </footer>
+    <section id="screen-chat" class="screen">
+      <header class="topbar">
+        <button type="button" class="ghost" id="btn-back-list">对话</button>
+        <div class="brand mid">
+          <strong id="chat-title">新对话</strong>
+          <em id="chat-sub">入戏</em>
+        </div>
+        <button type="button" class="ghost" id="btn-new-in-chat">新开</button>
+      </header>
+      <main class="view on chat-main">
+        <section class="stream" id="stream"></section>
+      </main>
+      <footer class="dock">
+        <div id="insert-bar" class="insert-bar" hidden></div>
+        <form id="composer" class="composer">
+          <button type="button" id="btn-plus" class="icon-btn" hidden>+</button>
+          <input id="user-input" autocomplete="off" placeholder="说一句…" />
+          <button type="button" id="btn-model" class="model-chip">未接模型</button>
+          <button type="submit">发送</button>
+        </form>
+      </footer>
+    </section>
   </div>
 
   <div id="sheet-model" class="sheet" hidden>
@@ -51,7 +76,7 @@
     <div class="sheet-bg" data-close="api"></div>
     <div class="sheet-card tall">
       <p class="sheet-title">接口</p>
-      <p class="hint">密钥只存在这台手机。不要提交到 GitHub。</p>
+      <p class="hint">密钥只存在这台手机，不会写入 GitHub。</p>
       <label>预设</label>
       <select id="api-preset"></select>
       <label>接口地址 Base URL</label>
