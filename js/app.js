@@ -76,6 +76,7 @@ function renderThreadList() {
     <button type="button" class="thread" data-id="${t.id}">
       <strong>${escapeHtml(t.title)}</strong>
     </button>
+    <button type="button" class="rename" data-ren="${t.id}">改名</button>
     <button type="button" class="del" data-del="${t.id}">删除</button>
   </div>`).join("");
   box.querySelectorAll(".thread").forEach(btn => {
@@ -83,6 +84,9 @@ function renderThreadList() {
       openThread(btn.dataset.id);
       closeSheet("projects");
     };
+  });
+  box.querySelectorAll("[data-ren]").forEach(btn => {
+    btn.onclick = () => renameThread(btn.dataset.ren);
   });
   box.querySelectorAll(".del").forEach(btn => {
     btn.onclick = () => {
@@ -92,6 +96,19 @@ function renderThreadList() {
       renderThreadList();
     };
   });
+}
+
+
+function renameThread(id) {
+  const th = getThread(id);
+  if (!th) return;
+  const name = prompt("窗口名字", th.title);
+  if (!name || !name.trim()) return;
+  th.title = name.trim().slice(0, 24);
+  th.updated = Date.now();
+  upsertThread(th);
+  if (state.threadId === id) document.getElementById("chat-title").textContent = th.title;
+  renderThreadList();
 }
 
 function newThread(close = true) {
@@ -265,4 +282,8 @@ document.getElementById("btn-accept").onclick = () => {
   callLayer.hidden = true;
   add({ type: "stamp", text: "通话中 00:12" });
   add({ type: "say", name: "海口同城会", said: "你窗户那侧进没进水？", thought: null });
+};
+
+document.getElementById("chat-title").onclick = () => {
+  if (state.threadId) renameThread(state.threadId);
 };
