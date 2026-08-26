@@ -84,15 +84,11 @@ function applyCfg(cfg) {
 
 function refreshPill() {
   const cfg = currentCfg();
-  const pill = document.getElementById("api-pill");
-  if (cfg.base && cfg.model && cfg.key) {
-    const name = PRESETS[cfg.preset]?.label || "自定义";
-    pill.textContent = name;
-    pill.className = "pill on";
-  } else {
-    pill.textContent = "未接模型";
-    pill.className = "pill off";
-  }
+  const chip = document.getElementById("btn-model");
+  if (!chip) return;
+  chip.textContent = (cfg.base && cfg.model && cfg.key)
+    ? (PRESETS[cfg.preset]?.label || cfg.model || "已接")
+    : "未接模型";
 }
 
 function endpoint(cfg) {
