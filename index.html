@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=16" />
+  <link rel="stylesheet" href="./css/app.css?v=17" />
 </head>
 <body>
   <div id="app">
@@ -19,13 +19,17 @@
         <div class="brand mid">
           <strong id="chat-title">新窗口</strong>
         </div>
-        <button type="button" class="ghost" id="btn-demo">示例</button>
+        <div class="top-actions">
+          <button type="button" class="ghost" id="btn-new-in-chat">新开</button>
+          <button type="button" class="ghost" id="btn-demo">示例</button>
+        </div>
       </header>
       <main class="view on chat-main">
         <p id="empty-hint" class="empty-hint"></p>
         <section class="stream" id="stream"></section>
       </main>
       <footer class="dock">
+        <div id="prompt-chips" class="prompt-chips"></div>
         <div id="insert-bar" class="insert-bar" hidden></div>
         <div class="tools">
           <button type="button" id="btn-model" class="model-chip">未接模型</button>
@@ -174,10 +178,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=16"></script>
-  <script src="./js/render.js?v=16"></script>
-  <script src="./js/extra.js?v=16"></script>
-  <script src="./js/api.js?v=16"></script>
-  <script src="./js/app.js?v=16"></script>
+  <script src="./js/demo.js?v=17"></script>
+  <script src="./js/render.js?v=17"></script>
+  <script src="./js/extra.js?v=17"></script>
+  <script src="./js/api.js?v=17"></script>
+  <script src="./js/app.js?v=17"></script>
 </body>
 </html>

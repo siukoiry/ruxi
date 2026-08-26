@@ -26,7 +26,8 @@ function loadDB() {
 function saveDB(db) { localStorage.setItem(STORE, JSON.stringify(db)); }
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 function threadsOf(pid) {
-  return loadDB().threads.filter(t => t.project === pid).sort((a, b) => b.updated - a.updated);
+  return loadDB().threads.filter(t => t.project === pid)
+    .sort((a, b) => (b.pinned?1:0) - (a.pinned?1:0) || b.updated - a.updated);
 }
 function getThread(id) { return loadDB().threads.find(t => t.id === id); }
 function upsertThread(th) {
@@ -48,6 +49,8 @@ function setPlus() {
   const on = state.project === "rp";
   document.getElementById("btn-plus").hidden = !on;
   if (!on) document.getElementById("insert-bar").hidden = true;
+  document.body.dataset.mode = on ? "phone" : "box";
+  renderPromptChips();
 }
 
 function renderProjTabs() {
@@ -76,8 +79,10 @@ function renderThreadList() {
   }
   box.innerHTML = list.map(t => `<div class="thread-row">
     <button type="button" class="thread" data-id="${t.id}">
-      <strong>${escapeHtml(t.title)}</strong>
+      <strong>${t.pinned ? "钉 · " : ""}${escapeHtml(t.title)}</strong>
     </button>
+    <button type="button" class="rename" data-pin="${t.id}">${t.pinned ? "取消钉" : "置顶"}</button>
+    <button type="button" class="rename" data-dup="${t.id}">复制</button>
     <button type="button" class="rename" data-ren="${t.id}">改名</button>
     <button type="button" class="del" data-del="${t.id}">删除</button>
   </div>`).join("");
@@ -89,6 +94,28 @@ function renderThreadList() {
   });
   box.querySelectorAll("[data-ren]").forEach(btn => {
     btn.onclick = () => renameThread(btn.dataset.ren);
+  });
+  box.querySelectorAll("[data-pin]").forEach(btn => {
+    btn.onclick = () => {
+      const th = getThread(btn.dataset.pin);
+      if (!th) return;
+      th.pinned = !th.pinned;
+      upsertThread(th);
+      renderThreadList();
+    };
+  });
+  box.querySelectorAll("[data-dup]").forEach(btn => {
+    btn.onclick = () => {
+      const th = getThread(btn.dataset.dup);
+      if (!th) return;
+      const copy = JSON.parse(JSON.stringify(th));
+      copy.id = uid();
+      copy.title = (th.title || "窗口") + " 副本";
+      copy.pinned = false;
+      copy.updated = Date.now();
+      upsertThread(copy);
+      renderThreadList();
+    };
   });
   box.querySelectorAll(".del").forEach(btn => {
     btn.onclick = () => {
@@ -190,6 +217,7 @@ function closeSheet(id) { document.getElementById("sheet-" + id).hidden = true; 
 function openSheet(id) { document.getElementById("sheet-" + id).hidden = false; }
 
 initApiPanel();
+renderPromptChips();
 
 const last = loadDB().threads.sort((a, b) => b.updated - a.updated)[0];
 if (last) openThread(last.id);
@@ -203,12 +231,16 @@ function renderRpTools() {
   const rules = document.getElementById("rule-list");
   rules.innerHTML = (x.rules || []).map(r => `<div class="thread-row">
     <button type="button" class="thread ${r.on ? "on" : ""}" data-rtog="${r.id}"><strong>${r.on ? "开" : "关"} · ${escapeHtml(r.title)}</strong></button>
+    <button type="button" class="rename" data-rup="${r.id}">上</button>
+    <button type="button" class="rename" data-rdown="${r.id}">下</button>
     <button type="button" class="rename" data-redit="${r.id}">改</button>
     <button type="button" class="del" data-rdel="${r.id}">删除</button>
   </div>`).join("") || `<p class="empty">还没有规则。</p>`;
   rules.querySelectorAll("[data-rtog]").forEach(b => b.onclick = () => { toggleRule(b.dataset.rtog); renderRpTools(); });
   rules.querySelectorAll("[data-redit]").forEach(b => b.onclick = () => openRule(b.dataset.redit));
   rules.querySelectorAll("[data-rdel]").forEach(b => b.onclick = () => { deleteRule(b.dataset.rdel); renderRpTools(); });
+  rules.querySelectorAll("[data-rup]").forEach(b => b.onclick = () => { moveRule(b.dataset.rup, -1); renderRpTools(); });
+  rules.querySelectorAll("[data-rdown]").forEach(b => b.onclick = () => { moveRule(b.dataset.rdown, 1); renderRpTools(); });
   const list = document.getElementById("char-list");
   if (!x.chars.length) {
     list.innerHTML = `<p class="empty">还没有角色卡。</p>`;
@@ -232,6 +264,7 @@ document.getElementById("btn-projects").onclick = () => {
   openSheet("projects");
 };
 document.getElementById("btn-new-thread").onclick = () => newThread(true);
+document.getElementById("btn-new-in-chat").onclick = () => newThread(true);
 
 document.querySelectorAll("[data-close]").forEach(el => {
   el.onclick = () => closeSheet(el.dataset.close);
@@ -572,3 +605,31 @@ document.getElementById("btn-save-prompt").onclick = () => {
   closeSheet("prompt");
   renderPrompts();
 };
+
+function moveRule(id, dir) {
+  const x = extraState();
+  const i = x.rules.findIndex(r => r.id === id);
+  if (i < 0) return;
+  const j = i + dir;
+  if (j < 0 || j >= x.rules.length) return;
+  const t = x.rules[i];
+  x.rules[i] = x.rules[j];
+  x.rules[j] = t;
+  saveExtra(x);
+}
+function renderPromptChips() {
+  const box = document.getElementById("prompt-chips");
+  if (!box) return;
+  const list = extraState().prompts || [];
+  if (!list.length) { box.innerHTML = ""; return; }
+  box.innerHTML = list.map(pr => `<button type="button" data-chip="${pr.id}">${escapeHtml(pr.name)}</button>`).join("");
+  box.querySelectorAll("[data-chip]").forEach(b => {
+    b.onclick = () => {
+      const pr = extraState().prompts.find(x => x.id === b.dataset.chip);
+      if (!pr) return;
+      const input = document.getElementById("user-input");
+      input.value = (input.value + " " + pr.body).trim();
+      input.focus();
+    };
+  });
+}

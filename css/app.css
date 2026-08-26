@@ -442,3 +442,40 @@ textarea {
   padding: 28px 8px 0; margin: 0;
 }
 .empty-hint[hidden] { display: none; }
+
+.prompt-chips { display: flex; gap: 6px; overflow-x: auto; padding: 0 0 8px; }
+.prompt-chips:empty { display: none; }
+.prompt-chips button {
+  flex: 0 0 auto; border: 1px solid var(--line); background: var(--btn);
+  color: var(--text); border-radius: 999px; padding: 5px 10px; font-size: 11px;
+}
+body[data-mode="phone"] #app {
+  background: #050506;
+}
+body[data-mode="phone"] .stream .mod {
+  border-radius: 18px;
+}
+body[data-mode="phone"] .wx-msg .bubble {
+  border-radius: 16px 16px 16px 4px;
+}
+body[data-mode="phone"] .wx-msg.me .bubble {
+  border-radius: 16px 16px 4px 16px;
+  background: var(--wx-me);
+}
+body[data-mode="box"] .wx-msg {
+  max-width: 100%;
+}
+body[data-mode="box"] .wx-msg .bubble {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  width: 100%;
+}
+body[data-mode="box"] .wx-msg.me {
+  align-items: flex-end;
+}
+body[data-mode="box"] .wx-msg.me .bubble {
+  background: var(--btn);
+  width: auto;
+  max-width: 92%;
+}
