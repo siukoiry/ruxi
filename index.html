@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=11" />
+  <link rel="stylesheet" href="./css/app.css?v=12" />
 </head>
 <body>
   <div id="app">
@@ -67,6 +67,24 @@
         <input id="import-file" type="file" accept="application/json" hidden />
       </div>
       <div class="thread-list" id="thread-list"></div>
+    </div>
+  </div>
+
+  <div id="sheet-char" class="sheet" hidden>
+    <div class="sheet-bg" data-close="char"></div>
+    <div class="sheet-card tall">
+      <p class="sheet-title" id="char-sheet-title">角色卡</p>
+      <label>名字</label>
+      <input id="char-name" placeholder="林晚" />
+      <label>人设</label>
+      <textarea id="char-persona" class="short" placeholder="身份、性格、和用户的关系、不能做什么"></textarea>
+      <label>开场白</label>
+      <textarea id="char-greeting" class="short" placeholder="进入窗口时角色先说的话，可空"></textarea>
+      <label>示例对白</label>
+      <textarea id="char-example" class="short" placeholder="用户：…\n角色：…"></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="btn-save-char">保存角色</button>
+      </div>
     </div>
   </div>
 
@@ -134,10 +152,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=11"></script>
-  <script src="./js/render.js?v=11"></script>
-  <script src="./js/extra.js?v=11"></script>
-  <script src="./js/api.js?v=11"></script>
-  <script src="./js/app.js?v=11"></script>
+  <script src="./js/demo.js?v=12"></script>
+  <script src="./js/render.js?v=12"></script>
+  <script src="./js/extra.js?v=12"></script>
+  <script src="./js/api.js?v=12"></script>
+  <script src="./js/app.js?v=12"></script>
 </body>
 </html>

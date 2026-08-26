@@ -198,9 +198,11 @@ function renderRpTools() {
   }
   list.innerHTML = x.chars.map(c => `<div class="thread-row">
     <button type="button" class="thread ${c.id === x.activeChar ? "on" : ""}" data-cid="${c.id}"><strong>${escapeHtml(c.name)}</strong></button>
+    <button type="button" class="rename" data-cedit="${c.id}">改</button>
     <button type="button" class="del" data-cdel="${c.id}">删除</button>
   </div>`).join("");
   list.querySelectorAll("[data-cid]").forEach(btn => btn.onclick = () => { setActiveChar(btn.dataset.cid); renderRpTools(); });
+  list.querySelectorAll("[data-cedit]").forEach(btn => btn.onclick = () => openChar(btn.dataset.cedit));
   list.querySelectorAll("[data-cdel]").forEach(btn => btn.onclick = () => { deleteChar(btn.dataset.cdel); renderRpTools(); });
 }
 
@@ -439,14 +441,32 @@ document.getElementById("btn-save-rule").onclick = () => {
   closeSheet("rule");
   renderRpTools();
 };
-document.getElementById("btn-new-char").onclick = () => {
-  const name = prompt("角色名");
+let editingChar = null;
+function openChar(id) {
+  const x = extraState();
+  const c = x.chars.find(v => v.id === id) || { id: id || uid(), name: "", persona: "", greeting: "", example: "" };
+  editingChar = c.id;
+  document.getElementById("char-name").value = c.name || "";
+  document.getElementById("char-persona").value = c.persona || "";
+  document.getElementById("char-greeting").value = c.greeting || "";
+  document.getElementById("char-example").value = c.example || "";
+  document.getElementById("char-sheet-title").textContent = c.name ? c.name : "新角色卡";
+  openSheet("char");
+}
+document.getElementById("btn-new-char").onclick = () => openChar(uid());
+document.getElementById("btn-save-char").onclick = () => {
+  const name = document.getElementById("char-name").value.trim();
   if (!name) return;
-  const persona = prompt("人设（性格、关系、禁忌）") || "";
-  const greeting = prompt("开场白，可空") || "";
-  const ch = { id: uid(), name: name.trim(), persona, greeting };
+  const ch = {
+    id: editingChar || uid(),
+    name,
+    persona: document.getElementById("char-persona").value.trim(),
+    greeting: document.getElementById("char-greeting").value.trim(),
+    example: document.getElementById("char-example").value.trim()
+  };
   upsertChar(ch);
   setActiveChar(ch.id);
+  closeSheet("char");
   renderRpTools();
 };
 document.getElementById("thread-search").oninput = renderThreadList;

@@ -90,7 +90,8 @@ function rpSystem() {
     ? enabled.map((r, i) => (i + 1) + ". " + r.title + "：" + r.text).join("\n")
     : (x.world || DEFAULT_WORLD);
   if (ch) {
-    s += `\n\n当前角色卡：${ch.name}\n${ch.persona || ""}\n开场白：${ch.greeting || ""}`;
+    s += `\n\n当前角色卡：${ch.name}\n人设：${ch.persona || ""}\n开场白：${ch.greeting || ""}`;
+    if (ch.example) s += `\n示例对白：\n${ch.example}`;
   }
   return s;
 }
