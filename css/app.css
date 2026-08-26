@@ -507,3 +507,28 @@ body[data-mode="box"] .wx-msg.me .bubble {
 .chat-main { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
 .stream { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 .dock { flex-shrink: 0; }
+
+button, .project, .thread, .icon-btn, .send, .ghost, .primary, .model-chip, .tool {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  transition: transform 0.12s ease, background-color 0.16s ease, opacity 0.16s ease, border-color 0.16s ease;
+}
+button:active, .project:active, .thread:active, .icon-btn:active, .send:active, .ghost:active {
+  transform: scale(0.96);
+  opacity: 0.86;
+}
+.sheet {
+  animation: none;
+}
+.sheet:not([hidden]) .sheet-bg {
+  animation: fadeIn 0.2s ease;
+}
+.sheet:not([hidden]) .sheet-card {
+  animation: rise 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rise { from { transform: translateY(24px); opacity: .6; } to { transform: none; opacity: 1; } }
+.stream > * {
+  animation: rise 0.22s ease;
+}
