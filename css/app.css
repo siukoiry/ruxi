@@ -1,10 +1,16 @@
 :root {
+  color-scheme: dark;
   --bg: #070708;
   --card: #121214;
   --line: #2a2a2e;
   --text: #f4f4f5;
   --dim: #8b8b93;
   --mute: #5c5c66;
+  --btn: #1c1c20;
+  --input: #161618;
+  --sheet: #161618;
+  --send-bg: #ffffff;
+  --send-fg: #111111;
   --wx-blue: #7ea1d6;
   --wx-green: #3ecf7a;
   --wx-bubble: #2c2c2e;
@@ -105,7 +111,7 @@ body { padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
 .sheet-bg { position: absolute; inset: 0; background: #0009; }
 .sheet-card {
   position: relative; width: 100%; max-width: 430px; margin: 0 auto;
-  background: #161618; border-radius: 20px 20px 0 0;
+  background: var(--sheet); border-radius: 20px 20px 0 0;
   padding: 16px 16px calc(18px + env(safe-area-inset-bottom));
   max-height: 82dvh; overflow: auto;
 }
@@ -125,7 +131,7 @@ body { padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
   position: sticky; bottom: 0; background: linear-gradient(transparent, var(--bg) 30%);
 }
 .composer input {
-  flex: 1; border: 0; background: #161618; color: #fff;
+  flex: 1; border: 0; background: var(--sheet); color: #fff;
   border-radius: 22px; padding: 11px 14px; font: inherit; outline: none;
 }
 .composer button, .primary {
@@ -366,11 +372,38 @@ textarea {
 
 .composer button.icon-btn {
   width: 40px; height: 40px; min-width: 40px; min-height: 40px;
-  background: #1c1c20 !important; color: #f2f2f2 !important;
+  background: var(--btn) !important; color: var(--text) !important;
   box-shadow: none;
 }
 .composer button.send {
   width: 40px; height: 40px; min-width: 40px; min-height: 40px;
-  background: #fff !important; color: #111 !important;
+  background: var(--send-bg) !important; color: var(--send-fg) !important;
 }
 .composer input { height: 40px; }
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --bg: #f3f3f5;
+    --card: #ffffff;
+    --line: #e4e4ea;
+    --text: #111113;
+    --dim: #5c5c66;
+    --mute: #8a8a93;
+    --wx-bubble: #e9e9ee;
+    --wx-me: #95ec69;
+    --btn: #ececf0;
+    --input: #ffffff;
+    --sheet: #ffffff;
+    --send-bg: #111113;
+    --send-fg: #ffffff;
+  }
+  body {
+    background:
+      radial-gradient(1200px 400px at 50% -10%, #ece8f2 0%, transparent 55%),
+      var(--bg);
+  }
+  #app {
+    background: transparent;
+  }
+}
