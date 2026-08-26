@@ -407,3 +407,10 @@ textarea {
     background: transparent;
   }
 }
+#thread-search {
+  width: 100%; border: 1px solid var(--line); background: var(--input);
+  color: var(--text); border-radius: 12px; padding: 10px 12px; margin-top: 10px;
+}
+.bubble pre, .bubble code { font-size: 12px; overflow-x: auto; }
+.bubble pre { background: #0003; padding: 8px; border-radius: 8px; }
+.thread.on { border-color: #3ecf7a; }

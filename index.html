@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=9" />
+  <link rel="stylesheet" href="./css/app.css?v=10" />
 </head>
 <body>
   <div id="app">
@@ -50,8 +50,21 @@
     <div class="sheet-card tall">
       <p class="sheet-title">项目</p>
       <div class="proj-tabs" id="proj-tabs"></div>
+      <div id="rp-tools" hidden>
+        <label>底层（换角色也不丢）</label>
+        <textarea id="world-box" class="short" placeholder="回复格式、卡片规则…"></textarea>
+        <div class="row">
+          <button type="button" class="ghost" id="btn-save-world">保存底层</button>
+          <button type="button" class="primary sm" id="btn-new-char">新角色卡</button>
+        </div>
+        <div id="char-list" class="thread-list"></div>
+      </div>
+      <input id="thread-search" placeholder="搜索对话…" />
       <div class="row" style="margin:10px 0">
         <button type="button" class="primary sm" id="btn-new-thread">新窗口</button>
+        <button type="button" class="ghost" id="btn-export">导出</button>
+        <button type="button" class="ghost" id="btn-import">导入</button>
+        <input id="import-file" type="file" accept="application/json" hidden />
       </div>
       <div class="thread-list" id="thread-list"></div>
     </div>
@@ -70,7 +83,7 @@
     <div class="sheet-bg" data-close="api"></div>
     <div class="sheet-card tall">
       <p class="sheet-title">接口</p>
-      <p class="hint">密钥只存在这台手机，不会写入 GitHub。</p>
+      <p class="hint">密钥只存在这台手机。可保存多把，在模型列表里切换。</p><label>这把钥匙的名字</label><input id="api-label" placeholder="家里 DeepSeek" />
       <label>预设</label>
       <select id="api-preset"></select>
       <label>接口地址 Base URL</label>
@@ -84,7 +97,7 @@
       <label>人设 / 系统提示</label>
       <textarea id="api-system" class="short"></textarea>
       <div class="row">
-        <button id="btn-save-api" class="primary">保存</button>
+        <button id="btn-save-api" class="primary">保存为当前</button>
         <button id="btn-test-api" class="ghost">测试</button>
         <button id="btn-clear-api" class="ghost">清除密钥</button>
       </div>
@@ -107,9 +120,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=9"></script>
-  <script src="./js/render.js?v=9"></script>
-  <script src="./js/api.js?v=9"></script>
-  <script src="./js/app.js?v=9"></script>
+  <script src="./js/demo.js?v=10"></script>
+  <script src="./js/render.js?v=10"></script>
+  <script src="./js/extra.js?v=10"></script>
+  <script src="./js/api.js?v=10"></script>
+  <script src="./js/app.js?v=10"></script>
 </body>
 </html>

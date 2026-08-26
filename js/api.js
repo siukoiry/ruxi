@@ -163,9 +163,16 @@ function initApiPanel() {
   };
 
   document.getElementById("btn-save-api").onclick = () => {
-    saveCfg(currentCfg());
+    const cfg = currentCfg();
+    saveCfg(cfg);
+    const x = extraState();
+    const label = (document.getElementById("api-label")?.value || cfg.preset || "未命名").trim();
+    const row = { id: cfg.preset + "-" + Date.now().toString(36), label, ...cfg };
+    x.keys = (x.keys || []).filter(k => k.label !== label);
+    x.keys.push(row);
+    saveExtra(x);
     refreshPill();
-    setApiStatus("已保存到本机", true);
+    setApiStatus("已保存「" + label + "」", true);
   };
   document.getElementById("btn-clear-api").onclick = () => {
     document.getElementById("api-key").value = "";

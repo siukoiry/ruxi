@@ -66,7 +66,9 @@ function renderProjTabs() {
 }
 
 function renderThreadList() {
-  const list = threadsOf(state.project);
+  const q = (document.getElementById("thread-search")?.value || "").trim().toLowerCase();
+  let list = threadsOf(state.project);
+  if (q) list = list.filter(t => (t.title || "").toLowerCase().includes(q) || JSON.stringify(t.items || []).toLowerCase().includes(q));
   const box = document.getElementById("thread-list");
   if (!list.length) {
     box.innerHTML = `<p class="empty">这个项目还没有窗口。</p>`;
@@ -134,7 +136,7 @@ function openThread(id) {
 function draw(item) {
   if (item.kind === "plain") {
     streamEl.insertAdjacentHTML("beforeend",
-      `<article class="wx-msg ${item.me ? "me" : ""}"><div class="bubble">${escapeHtml(item.text)}</div></article>`);
+      `<article class="wx-msg ${item.me ? "me" : ""}"><div class="bubble">${item.me ? escapeHtml(item.text) : md(item.text)}</div></article>`);
   } else {
     streamEl.insertAdjacentHTML("beforeend", renderBlock(item));
   }
@@ -156,7 +158,7 @@ function add(item) {
 
 function historyFromThread() {
   const th = getThread(state.threadId);
-  const sys = SYSTEMS[state.project] || SYSTEMS.chat;
+  const sys = state.project === "rp" ? rpSystem() : (SYSTEMS[state.project] || SYSTEMS.chat);
   const msgs = [{ role: "system", content: sys }];
   (th.items || []).forEach(it => {
     if (it.kind === "plain" && it.me) msgs.push({ role: "user", content: it.text });
@@ -175,8 +177,28 @@ const last = loadDB().threads.sort((a, b) => b.updated - a.updated)[0];
 if (last) openThread(last.id);
 else newThread(false);
 
+function renderRpTools() {
+  const box = document.getElementById("rp-tools");
+  box.hidden = state.project !== "rp";
+  if (state.project !== "rp") return;
+  const x = extraState();
+  document.getElementById("world-box").value = x.world || DEFAULT_WORLD;
+  const list = document.getElementById("char-list");
+  if (!x.chars.length) {
+    list.innerHTML = `<p class="empty">还没有角色卡。</p>`;
+    return;
+  }
+  list.innerHTML = x.chars.map(c => `<div class="thread-row">
+    <button type="button" class="thread ${c.id === x.activeChar ? "on" : ""}" data-cid="${c.id}"><strong>${escapeHtml(c.name)}</strong></button>
+    <button type="button" class="del" data-cdel="${c.id}">删除</button>
+  </div>`).join("");
+  list.querySelectorAll("[data-cid]").forEach(btn => btn.onclick = () => { setActiveChar(btn.dataset.cid); renderRpTools(); });
+  list.querySelectorAll("[data-cdel]").forEach(btn => btn.onclick = () => { deleteChar(btn.dataset.cdel); renderRpTools(); });
+}
+
 document.getElementById("btn-projects").onclick = () => {
   renderProjTabs();
+  renderRpTools();
   renderThreadList();
   openSheet("projects");
 };
@@ -220,6 +242,18 @@ function fillModelList() {
   const box = document.getElementById("model-list");
   const cur = currentCfg().preset;
   box.innerHTML = "";
+  extraState().keys.forEach(row => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = row.label + " · " + (row.model || "");
+    b.onclick = () => {
+      applyCfg(row);
+      saveCfg(currentCfg());
+      refreshPill();
+      closeSheet("model");
+    };
+    box.appendChild(b);
+  });
   Object.entries(PRESETS).forEach(([k, v]) => {
     const b = document.createElement("button");
     b.type = "button";
@@ -374,4 +408,30 @@ document.getElementById("btn-accept").onclick = () => {
 
 document.getElementById("chat-title").onclick = () => {
   if (state.threadId) renameThread(state.threadId);
+};
+
+document.getElementById("btn-save-world").onclick = () => {
+  setWorld(document.getElementById("world-box").value);
+  alert("底层已保存");
+};
+document.getElementById("btn-new-char").onclick = () => {
+  const name = prompt("角色名");
+  if (!name) return;
+  const persona = prompt("人设（性格、关系、禁忌）") || "";
+  const greeting = prompt("开场白，可空") || "";
+  const ch = { id: uid(), name: name.trim(), persona, greeting };
+  upsertChar(ch);
+  setActiveChar(ch.id);
+  renderRpTools();
+};
+document.getElementById("thread-search").oninput = renderThreadList;
+document.getElementById("btn-export").onclick = exportAll;
+document.getElementById("btn-import").onclick = () => document.getElementById("import-file").click();
+document.getElementById("import-file").onchange = async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    importAll(JSON.parse(await f.text()));
+    location.reload();
+  } catch { alert("导入失败"); }
 };
