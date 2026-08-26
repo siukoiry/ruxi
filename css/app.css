@@ -219,7 +219,7 @@ textarea {
 .wx-msg.me { align-items: flex-end; }
 .wx-name { color: var(--wx-blue); font-size: 11px; }
 .bubble {
-  max-width: 80%; background: var(--wx-bubble); color: #fff;
+  max-width: 80%; background: var(--wx-bubble); color: var(--text);
   border-radius: 6px 16px 16px 16px; padding: 8px 11px; font-size: 14px; line-height: 1.45;
 }
 .wx-msg.me .bubble { background: var(--wx-me); color: #08210f; border-radius: 16px 6px 16px 16px; }
@@ -420,7 +420,7 @@ textarea {
       var(--bg);
   }
   #app {
-    background: transparent;
+    background: var(--bg);
   }
 }
 #thread-search {
@@ -466,7 +466,7 @@ textarea {
   color: var(--text); border-radius: 999px; padding: 5px 10px; font-size: 11px;
 }
 body[data-mode="phone"] #app {
-  background: #050506;
+  background: var(--bg);
 }
 body[data-mode="phone"] .stream .mod {
   border-radius: 18px;
@@ -483,9 +483,11 @@ body[data-mode="box"] .wx-msg {
 }
 body[data-mode="box"] .wx-msg .bubble {
   background: var(--card);
+  color: var(--text);
   border: 1px solid var(--line);
   border-radius: 12px;
-  width: 100%;
+  width: auto;
+  max-width: 92%;
 }
 body[data-mode="box"] .wx-msg.me {
   align-items: flex-end;
@@ -523,3 +525,15 @@ button.pressed, .project.pressed, .thread.pressed {
 .sheet:not([hidden]) .sheet-card { animation: rise 0.2s cubic-bezier(0.22, 1, 0.36, 1); }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes rise { from { transform: translateY(16px); } to { transform: none; } }
+
+.icon-btn[hidden], button[hidden] { display: none !important; }
+.topbar { gap: 8px; }
+.brand.mid {
+  flex: 1; min-width: 0; text-align: center;
+}
+.brand.mid strong {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 14px;
+}
+.top-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.chat-main, .stream { background: var(--bg); }
