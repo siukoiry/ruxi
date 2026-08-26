@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="icon" href="./icon.png" />
   <title>人设</title>
-  <link rel="stylesheet" href="./css/app.css?v=10" />
+  <link rel="stylesheet" href="./css/app.css?v=11" />
 </head>
 <body>
   <div id="app">
@@ -51,10 +51,10 @@
       <p class="sheet-title">项目</p>
       <div class="proj-tabs" id="proj-tabs"></div>
       <div id="rp-tools" hidden>
-        <label>底层（换角色也不丢）</label>
-        <textarea id="world-box" class="short" placeholder="回复格式、卡片规则…"></textarea>
+        <label>底层规则（换角色也不丢）</label>
+        <div id="rule-list" class="thread-list"></div>
         <div class="row">
-          <button type="button" class="ghost" id="btn-save-world">保存底层</button>
+          <button type="button" class="ghost" id="btn-new-rule">新规则</button>
           <button type="button" class="primary sm" id="btn-new-char">新角色卡</button>
         </div>
         <div id="char-list" class="thread-list"></div>
@@ -67,6 +67,20 @@
         <input id="import-file" type="file" accept="application/json" hidden />
       </div>
       <div class="thread-list" id="thread-list"></div>
+    </div>
+  </div>
+
+  <div id="sheet-rule" class="sheet" hidden>
+    <div class="sheet-bg" data-close="rule"></div>
+    <div class="sheet-card">
+      <p class="sheet-title" id="rule-sheet-title">规则</p>
+      <label>标题</label>
+      <input id="rule-title" placeholder="例如：对白要短" />
+      <label>内容</label>
+      <textarea id="rule-text" class="short" placeholder="这条要模型记住的话"></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="btn-save-rule">保存这条</button>
+      </div>
     </div>
   </div>
 
@@ -120,10 +134,10 @@
     const light = matchMedia("(prefers-color-scheme: light)").matches;
     document.querySelector('meta[name="theme-color"]').setAttribute("content", light ? "#f3f3f5" : "#070708");
   </script>
-  <script src="./js/demo.js?v=10"></script>
-  <script src="./js/render.js?v=10"></script>
-  <script src="./js/extra.js?v=10"></script>
-  <script src="./js/api.js?v=10"></script>
-  <script src="./js/app.js?v=10"></script>
+  <script src="./js/demo.js?v=11"></script>
+  <script src="./js/render.js?v=11"></script>
+  <script src="./js/extra.js?v=11"></script>
+  <script src="./js/api.js?v=11"></script>
+  <script src="./js/app.js?v=11"></script>
 </body>
 </html>

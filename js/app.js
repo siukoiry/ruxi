@@ -182,7 +182,15 @@ function renderRpTools() {
   box.hidden = state.project !== "rp";
   if (state.project !== "rp") return;
   const x = extraState();
-  document.getElementById("world-box").value = x.world || DEFAULT_WORLD;
+  const rules = document.getElementById("rule-list");
+  rules.innerHTML = (x.rules || []).map(r => `<div class="thread-row">
+    <button type="button" class="thread ${r.on ? "on" : ""}" data-rtog="${r.id}"><strong>${r.on ? "开" : "关"} · ${escapeHtml(r.title)}</strong></button>
+    <button type="button" class="rename" data-redit="${r.id}">改</button>
+    <button type="button" class="del" data-rdel="${r.id}">删除</button>
+  </div>`).join("") || `<p class="empty">还没有规则。</p>`;
+  rules.querySelectorAll("[data-rtog]").forEach(b => b.onclick = () => { toggleRule(b.dataset.rtog); renderRpTools(); });
+  rules.querySelectorAll("[data-redit]").forEach(b => b.onclick = () => openRule(b.dataset.redit));
+  rules.querySelectorAll("[data-rdel]").forEach(b => b.onclick = () => { deleteRule(b.dataset.rdel); renderRpTools(); });
   const list = document.getElementById("char-list");
   if (!x.chars.length) {
     list.innerHTML = `<p class="empty">还没有角色卡。</p>`;
@@ -410,9 +418,26 @@ document.getElementById("chat-title").onclick = () => {
   if (state.threadId) renameThread(state.threadId);
 };
 
-document.getElementById("btn-save-world").onclick = () => {
-  setWorld(document.getElementById("world-box").value);
-  alert("底层已保存");
+let editingRule = null;
+function openRule(id) {
+  const x = extraState();
+  const r = x.rules.find(v => v.id === id) || { id: uid(), on: true, title: "", text: "" };
+  editingRule = r.id;
+  document.getElementById("rule-title").value = r.title || "";
+  document.getElementById("rule-text").value = r.text || "";
+  document.getElementById("rule-sheet-title").textContent = r.title ? "改规则" : "新规则";
+  openSheet("rule");
+}
+document.getElementById("btn-new-rule").onclick = () => openRule(uid());
+document.getElementById("btn-save-rule").onclick = () => {
+  upsertRule({
+    id: editingRule || uid(),
+    on: true,
+    title: document.getElementById("rule-title").value.trim() || "未命名",
+    text: document.getElementById("rule-text").value.trim()
+  });
+  closeSheet("rule");
+  renderRpTools();
 };
 document.getElementById("btn-new-char").onclick = () => {
   const name = prompt("角色名");
