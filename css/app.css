@@ -414,3 +414,26 @@ textarea {
 .bubble pre, .bubble code { font-size: 12px; overflow-x: auto; }
 .bubble pre { background: #0003; padding: 8px; border-radius: 8px; }
 .thread.on { border-color: #3ecf7a; }
+.bubble { line-height: 1.55; word-break: break-word; }
+.bubble h2, .bubble h3 { margin: 0.6em 0 0.3em; font-size: 15px; }
+.bubble p { margin: 0.4em 0; }
+.bubble ul { margin: 0.3em 0 0.3em 1.1em; padding: 0; }
+.bubble li { margin: 0.15em 0; }
+.bubble blockquote {
+  margin: 0.4em 0; padding: 0 0 0 10px; border-left: 3px solid var(--line); color: var(--dim);
+}
+.md-inline {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px; background: #0002; padding: 1px 5px; border-radius: 5px;
+}
+.md-code {
+  margin: 8px 0; padding: 10px 12px; border-radius: 10px;
+  background: #00000018; overflow-x: auto;
+}
+.md-code code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px; white-space: pre-wrap;
+}
+@media (prefers-color-scheme: light) {
+  .md-code { background: #1111110d; }
+}

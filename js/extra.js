@@ -11,15 +11,23 @@ const DEFAULT_RULES = [
 ];
 
 function md(src) {
-  let s = escapeHtml(String(src || ""));
-  s = s.replace(/```([\s\S]*?)```/g, (_, c) => `<pre><code>${c}</code></pre>`);
-  s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+  const fences = [];
+  let s = String(src || "").replace(/```\w*\n?([\s\S]*?)```/g, (_, c) => {
+    const i = fences.length;
+    fences.push("<pre class=\"md-code\"><code>" + escapeHtml(c.trim()) + "</code></pre>");
+    return "%%FENCE" + i + "%%";
+  });
+  s = escapeHtml(s);
+  s = s.replace(/`([^`]+)`/g, "<code class=\"md-inline\">$1</code>");
   s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  s = s.replace(/^\s*### (.+)$/gm, "<h3>$1</h3>");
-  s = s.replace(/^\s*## (.+)$/gm, "<h2>$1</h2>");
-  s = s.replace(/^\s*[-*] (.+)$/gm, "<li>$1</li>");
-  s = s.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
-  s = s.replace(/\n/g, "<br>");
+  s = s.replace(/(^|\n)### (.+)/g, "$1<h3>$2</h3>");
+  s = s.replace(/(^|\n)## (.+)/g, "$1<h2>$2</h2>");
+  s = s.replace(/(^|\n)# (.+)/g, "$1<h2>$2</h2>");
+  s = s.replace(/(^|\n)&gt; (.+)/g, "$1<blockquote>$2</blockquote>");
+  s = s.replace(/(^|\n)[-*] (.+)/g, "$1<li>$2</li>");
+  s = s.replace(/(?:<li>[\s\S]*?<\/li>\n?)+/g, m => "<ul>" + m.replace(/\n/g, "") + "</ul>");
+  s = "<p>" + s.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>") + "</p>";
+  fences.forEach((html, i) => { s = s.replace("%%FENCE" + i + "%%", html); });
   return s;
 }
 
