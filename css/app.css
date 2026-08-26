@@ -580,3 +580,31 @@ body[data-mode="box"] #btn-plus { display: none !important; }
 body[data-mode="phone"] #btn-file { display: none !important; }
 body[data-mode="box"] #btn-plus { display: none !important; }
 .send { justify-self: end; }
+
+.tools { display: flex; gap: 8px; align-items: center; }
+.model-chip, .tool {
+  height: 32px; padding: 0 12px; border-radius: 999px;
+  font-size: 12px; line-height: 32px; max-width: none;
+  border: 1px solid var(--line); background: var(--btn); color: var(--text);
+}
+.tool.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+.primary { background: var(--text) !important; color: var(--bg) !important; }
+.ghost { background: var(--btn) !important; color: var(--text) !important; }
+.composer {
+  grid-template-columns: 40px 1fr 40px 40px !important;
+  gap: 8px;
+}
+.composer button.icon-btn, .composer button.send {
+  width: 40px !important; height: 40px !important;
+  min-width: 40px !important; min-height: 40px !important;
+  flex: 0 0 40px !important;
+}
+@media (prefers-color-scheme: light) {
+  .composer button.icon-btn {
+    background: #e4e4ea !important; color: #111 !important;
+  }
+  .composer button.send {
+    background: #111 !important; color: #fff !important;
+  }
+  .model-chip, .tool { background: #e4e4ea; color: #111; border-color: #d4d4da; }
+}
