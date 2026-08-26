@@ -8,7 +8,7 @@ permissions:
   pages: write
   id-token: write
 concurrency:
-    group: pages-force-clear
+  group: pages-force-clear
   cancel-in-progress: true
 jobs:
   deploy:
