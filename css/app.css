@@ -556,3 +556,11 @@ body[data-mode="box"] #btn-plus { display: none !important; }
   body[data-mode="box"] .wx-msg .bubble { background: #fff; border: 1px solid #e4e4ea; }
   body[data-mode="box"] .wx-msg.me .bubble { background: #ececf0; }
 }
+
+.composer { width: 100%; max-width: 100%; overflow: hidden; gap: 6px; }
+.composer input { min-width: 0; flex: 1 1 auto; }
+.composer button.icon-btn, .composer button.send {
+  width: 34px; height: 34px; min-width: 34px; min-height: 34px; flex: 0 0 34px;
+}
+.dock { padding-left: 12px; padding-right: 12px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+.tools { padding-bottom: 6px; }

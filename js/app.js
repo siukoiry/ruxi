@@ -663,3 +663,18 @@ document.addEventListener("touchmove", e => {
   if (e.target.closest(".stream, .sheet-card, textarea, input, .thread-list, .insert-bar, .prompt-chips")) return;
   e.preventDefault();
 }, { passive: false });
+
+function fitViewport() {
+  const dock = document.querySelector(".dock");
+  if (!dock || !window.visualViewport) return;
+  const vv = window.visualViewport;
+  const occluded = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+  dock.style.paddingBottom = (8 + occluded) + "px";
+  document.getElementById("app").style.height = vv.height + "px";
+  document.getElementById("app").style.top = vv.offsetTop + "px";
+}
+if (window.visualViewport) {
+  visualViewport.addEventListener("resize", fitViewport);
+  visualViewport.addEventListener("scroll", fitViewport);
+  fitViewport();
+}
