@@ -921,3 +921,61 @@ body:has(#screen-list.on) .tabbar { display: grid; }
   color: #3b2f29;
 }
 #screen-chat .empty-hint { color: #8a7468; }
+
+#screen-home, #screen-settings, #screen-list,
+#screen-chat, #screen-chat .chat-main, #screen-chat .stream, #screen-chat .topbar {
+  background: #f3eee8 !important;
+  color: #2c2623;
+}
+#screen-chat .topbar .ghost,
+#screen-chat .top-actions .ghost {
+  background: #efe8e1 !important;
+  color: #2c2623 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+#screen-chat .menu-btn span { background: #2c2623 !important; }
+#screen-chat .chat-title { color: #2c2623 !important; }
+#screen-chat .wx-msg .bubble,
+#screen-chat .wx-msg.me .bubble {
+  background: #faf6f1 !important;
+  color: #2c2623 !important;
+  border: 1px solid #e7dfd6;
+}
+#screen-chat .bubble,
+#screen-chat .bubble p,
+#screen-chat .bubble li,
+#screen-chat .bubble h2,
+#screen-chat .bubble h3 {
+  color: #2c2623 !important;
+}
+#screen-chat .bubble code,
+#screen-chat .bubble pre {
+  background: #ece4db !important;
+  color: #2c2623 !important;
+}
+#screen-chat .empty-hint { color: #8a7e76 !important; }
+
+.sheet-card {
+  background: #f6f1eb !important;
+  color: #2c2623 !important;
+}
+.sheet-title, .sheet-card label, .sheet-card .hint,
+.sheet-card .empty { color: #5c534c !important; }
+.sheet-card input, .sheet-card textarea, .sheet-card select {
+  background: #faf6f1 !important;
+  color: #2c2623 !important;
+  border-color: #e7dfd6 !important;
+}
+.proj-tabs button, .thread, .rename, .del,
+.sheet-card .ghost, .sheet-card .primary,
+.model-list button {
+  background: #efe8e1 !important;
+  color: #2c2623 !important;
+  border-color: #e7dfd6 !important;
+}
+.proj-tabs button.on, .thread.on, .sheet-card .primary {
+  background: #2c2623 !important;
+  color: #f6f1eb !important;
+}
+.tabbar { background: #f3eee8 !important; border-top-color: #e7dfd6 !important; }
