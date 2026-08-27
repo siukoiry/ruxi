@@ -819,3 +819,44 @@ body:has(#screen-chat.on) .tabbar { display: grid; }
 }
 .tab.on { color: #3b2f29; font-weight: 600; }
 #screen-home { padding-bottom: 12px; }
+
+#screen-chat .dock {
+  background: #efe4d8;
+  border-top: 1px solid #e4d5cb;
+}
+#screen-chat .composer {
+  background: #f7efe7;
+  border-radius: 28px;
+  padding: 5px 5px 5px 8px;
+  gap: 2px;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+}
+#screen-chat .composer input {
+  background: transparent !important;
+  color: #3b2f29;
+  height: 40px !important;
+  padding: 0 8px !important;
+}
+#screen-chat .composer input::placeholder { color: #9a847a; }
+#screen-chat .composer button.icon-btn {
+  width: 38px !important;
+  height: 38px !important;
+  background: transparent !important;
+  color: #5b463e !important;
+  box-shadow: none !important;
+}
+#screen-chat .composer button.send {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: #3b2f29 !important;
+  color: #f7efe7 !important;
+}
+#screen-chat .model-chip,
+#screen-chat .tool {
+  background: #f7efe7;
+  color: #6a574e;
+  border: 0;
+}
