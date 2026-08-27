@@ -65,7 +65,9 @@
       </div>
       <form id="list-add" class="list-add">
         <input id="list-input" placeholder="加一条…" autocomplete="off" />
-        <button type="submit" class="send" aria-label="添加">+</button>
+        <button type="submit" class="list-add-go" aria-label="添加">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
       </form>
       <div id="list-box" class="list-box"></div>
     </section>

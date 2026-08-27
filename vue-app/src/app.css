@@ -875,15 +875,21 @@ body:has(#screen-list.on) .tabbar { display: grid; }
   overflow: auto;
 }
 .list-add {
-  display: flex; gap: 8px; margin: 0 0 16px;
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 16px;
   background: #f7efe7; border-radius: 22px; padding: 6px 6px 6px 14px;
 }
 .list-add input {
-  flex: 1; border: 0; background: transparent; font: inherit; outline: none; color: #3b2f29;
+  flex: 1 1 auto; min-width: 0;
+  border: 0; background: transparent; font: inherit; outline: none; color: #3b2f29;
 }
-.list-add .send {
+.list-add-go {
+  flex: 0 0 40px;
   width: 40px; height: 40px; border-radius: 50%; border: 0;
-  background: #3b2f29; color: #f7efe7; font-size: 20px;
+  background: #3b2f29; color: #f7efe7;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 .list-row {
   display: flex; align-items: center; gap: 12px;
