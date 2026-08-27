@@ -815,10 +815,11 @@ body[data-mode="box"] #btn-plus { display: none !important; }
   background: #f4ebe3;
   border-top: 1px solid #e4d5cb;
   padding: 6px 8px calc(8px + env(safe-area-inset-bottom));
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 body:has(#screen-home.on) .tabbar,
-body:has(#screen-chat.on) .tabbar { display: grid; }
+body:has(#screen-chat.on) .tabbar,
+body:has(#screen-list.on) .tabbar { display: grid; }
 .tab {
   appearance: none; border: 0; background: transparent;
   padding: 10px 0 8px; font-size: 12px; color: #8a7468;
@@ -867,3 +868,28 @@ body:has(#screen-chat.on) .tabbar { display: grid; }
   color: #6a574e;
   border: 0;
 }
+
+#screen-list {
+  background: #efe4d8;
+  padding: calc(18px + env(safe-area-inset-top)) 20px 28px;
+  overflow: auto;
+}
+.list-add {
+  display: flex; gap: 8px; margin: 0 0 16px;
+  background: #f7efe7; border-radius: 22px; padding: 6px 6px 6px 14px;
+}
+.list-add input {
+  flex: 1; border: 0; background: transparent; font: inherit; outline: none; color: #3b2f29;
+}
+.list-add .send {
+  width: 40px; height: 40px; border-radius: 50%; border: 0;
+  background: #3b2f29; color: #f7efe7; font-size: 20px;
+}
+.list-row {
+  display: flex; align-items: center; gap: 12px;
+  background: #f7efe7; border-radius: 18px; padding: 14px 16px; margin-bottom: 10px;
+}
+.list-row input { width: 18px; height: 18px; accent-color: #3b2f29; }
+.list-row span { flex: 1; font-family: "Noto Serif SC", serif; color: #3b2f29; }
+.list-row.done span { color: #9a847a; text-decoration: line-through; }
+.list-row .x { border: 0; background: transparent; color: #9a847a; font-size: 18px; }

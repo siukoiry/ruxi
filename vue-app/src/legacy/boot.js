@@ -1382,7 +1382,7 @@ document.querySelectorAll("[data-toggle]").forEach(btn => {
   };
 });
 function showScreen(id) {
-  ["screen-home", "screen-chat", "screen-settings"].forEach(s => {
+  ["screen-home", "screen-chat", "screen-settings", "screen-list"].forEach(s => {
     const el = document.getElementById(s);
     if (el) el.classList.toggle("on", s === id);
   });
@@ -1392,6 +1392,10 @@ document.getElementById("side-settings")?.addEventListener("click", () => {
   showScreen("screen-settings");
 });
 document.getElementById("btn-settings-back")?.addEventListener("click", () => showScreen("screen-home"));
+document.getElementById("btn-list-back")?.addEventListener("click", () => showScreen("screen-home"));
+document.querySelector("[data-go=list]")?.addEventListener("click", () => { showScreen("screen-list"); markTab("list"); renderList(); });
+document.getElementById("side-list")?.addEventListener("click", () => { setSidebar(false); showScreen("screen-list"); markTab("list"); renderList(); });
+
 document.getElementById("set-keys")?.addEventListener("click", () => {
   fillModelList();
   openSheet("model");
@@ -1425,3 +1429,62 @@ showHome = function() {
   _home();
   document.querySelectorAll("#tabbar .tab").forEach(b => b.classList.remove("on"));
 };
+
+
+const LIST_KEY = "ruxi.list.v1";
+function loadList() {
+  try { return JSON.parse(localStorage.getItem(LIST_KEY)) || []; }
+  catch { return []; }
+}
+function saveList(rows) { localStorage.setItem(LIST_KEY, JSON.stringify(rows)); }
+function renderList() {
+  const box = document.getElementById("list-box");
+  if (!box) return;
+  const rows = loadList();
+  if (!rows.length) {
+    box.innerHTML = '<p class="empty">还没有条目。</p>';
+    return;
+  }
+  box.innerHTML = rows.map(r =>
+    '<label class="list-row' + (r.done ? " done" : "") + '">' +
+    '<input type="checkbox" data-lid="' + r.id + '"' + (r.done ? " checked" : "") + '>' +
+    "<span>" + escapeHtml(r.text) + "</span>" +
+    '<button type="button" class="x" data-ldel="' + r.id + '">×</button></label>'
+  ).join("");
+  box.querySelectorAll("[data-lid]").forEach(c => {
+    c.onchange = () => {
+      const rows = loadList();
+      const it = rows.find(x => x.id === c.dataset.lid);
+      if (it) { it.done = c.checked; saveList(rows); renderList(); }
+    };
+  });
+  box.querySelectorAll("[data-ldel]").forEach(b => {
+    b.onclick = ev => {
+      ev.preventDefault();
+      saveList(loadList().filter(x => x.id !== b.dataset.ldel));
+      renderList();
+    };
+  });
+}
+document.getElementById("list-add")?.addEventListener("submit", e => {
+  e.preventDefault();
+  const input = document.getElementById("list-input");
+  const text = (input.value || "").trim();
+  if (!text) return;
+  const rows = loadList();
+  rows.unshift({ id: uid(), text, done: false });
+  saveList(rows);
+  input.value = "";
+  renderList();
+});
+const _mark = markTab;
+const _open = openProjectFromHome;
+document.querySelectorAll("#tabbar .tab").forEach(b => {
+  b.onclick = () => {
+    if (b.dataset.tab === "list") {
+      showScreen("screen-list");
+      markTab("list");
+      renderList();
+    } else openProjectFromHome(b.dataset.tab);
+  };
+});

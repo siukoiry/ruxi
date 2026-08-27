@@ -48,9 +48,27 @@
           <span class="home-card-label">闲聊</span>
           <span class="home-card-sub">随便说</span>
         </button>
+        <button type="button" class="home-card" data-go="list">
+          <span class="home-card-label">清单</span>
+          <span class="home-card-sub">勾掉就好</span>
+        </button>
       </div>
     </section>
 
+    <section id="screen-list" class="screen">
+      <div class="home-head">
+        <button type="button" class="back-btn" id="btn-list-back" aria-label="返回">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="home-kicker">记事</p>
+        <h1 class="home-title">清单</h1>
+      </div>
+      <form id="list-add" class="list-add">
+        <input id="list-input" placeholder="加一条…" autocomplete="off" />
+        <button type="submit" class="send" aria-label="添加">+</button>
+      </form>
+      <div id="list-box" class="list-box"></div>
+    </section>
     <section id="screen-settings" class="screen">
       <div class="home-head">
         <button type="button" class="back-btn" id="btn-settings-back" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -116,6 +134,7 @@
       <button type="button" class="tab" data-tab="work">干活</button>
       <button type="button" class="tab" data-tab="rp">人设</button>
       <button type="button" class="tab" data-tab="chat">闲聊</button>
+      <button type="button" class="tab" data-tab="list">清单</button>
     </nav>
   </div>
 
@@ -248,6 +267,7 @@
           <button type="button" class="sidebar-item side-mod-btn" data-toggle="chat">闲聊</button>
           <div class="side-wins" id="side-wins-chat" hidden></div>
         </div>
+        <button type="button" class="sidebar-item" id="side-list">清单</button>
         <div class="sidebar-foot">
           <button type="button" class="sidebar-item" id="side-settings">设置</button>
         </div>
