@@ -1,7 +1,8 @@
 html, body, #root, button, input, textarea, select {
   font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
 }
-.home-title, .splash-sign, .chat-title, .sidebar-kicker, .home-kicker {
+.home-title, .splash-sign, .chat-title, .sidebar-kicker, .home-kicker,
+.home-card-label, .home-card-sub, .set-row-t, .set-row-s {
   font-family: "Noto Serif SC", "Songti SC", "Noto Serif CJK SC", serif;
 }
 html,body,#root{height:100%;margin:0;}
