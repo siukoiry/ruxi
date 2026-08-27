@@ -50,6 +50,28 @@
         </button>
       </div>
     </section>
+
+    <section id="screen-settings" class="screen">
+      <div class="home-head">
+        <button type="button" class="ghost set-back" id="btn-settings-back">返回</button>
+        <p class="home-kicker">系统</p>
+        <h1 class="home-title">设置</h1>
+      </div>
+      <div class="set-list">
+        <button type="button" class="set-row" id="set-keys">
+          <span class="set-row-t">钥匙</span>
+          <span class="set-row-s">接口和模型</span>
+        </button>
+        <button type="button" class="set-row" id="set-export">
+          <span class="set-row-t">导出记录</span>
+          <span class="set-row-s">备份到文件</span>
+        </button>
+        <button type="button" class="set-row" id="set-import">
+          <span class="set-row-t">导入记录</span>
+          <span class="set-row-s">从文件恢复</span>
+        </button>
+      </div>
+    </section>
     <section id="screen-chat" class="screen">
       <header class="topbar">
         <div class="top-row">
@@ -203,12 +225,7 @@
       <p id="api-status" class="hint"></p>
     </div>
   </div>
-
-  
-    
-  <div id="sheet-settings" class="sheet" hidden>
-    <div class="sheet-bg" data-close="settings"></div>
-    <div class="sheet-card">
+<div class="sheet-card">
       <p class="sheet-title">设置</p>
       <button type="button" class="sidebar-item" id="set-keys">钥匙</button>
       <button type="button" class="sidebar-item" id="set-export">导出记录</button>

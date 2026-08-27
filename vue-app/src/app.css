@@ -768,3 +768,23 @@ body[data-mode="box"] #btn-plus { display: none !important; }
 }
 .side-win:active { background: #eadfd6; }
 .side-mod.open .side-mod-btn { background: #eadfd6; }
+
+#screen-settings {
+  background: #efe4d8;
+  padding: calc(18px + env(safe-area-inset-top)) 20px 28px;
+  overflow: auto;
+}
+.set-back { margin: 0 0 8px -8px; color: #6a574e; }
+.set-list { display: flex; flex-direction: column; gap: 12px; }
+.set-row {
+  appearance: none; border: 0; width: 100%;
+  text-align: left;
+  border-radius: 22px;
+  padding: 18px 20px;
+  background: #f7efe7;
+  color: #3b2f29;
+  display: flex; flex-direction: column; gap: 4px;
+  box-shadow: 0 8px 24px rgba(80,50,30,.05);
+}
+.set-row-t { font-size: 17px; font-weight: 560; }
+.set-row-s { font-size: 13px; color: #8a7468; }

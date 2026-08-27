@@ -1377,12 +1377,18 @@ document.querySelectorAll("[data-toggle]").forEach(btn => {
     }
   };
 });
+function showScreen(id) {
+  ["screen-home", "screen-chat", "screen-settings"].forEach(s => {
+    const el = document.getElementById(s);
+    if (el) el.classList.toggle("on", s === id);
+  });
+}
 document.getElementById("side-settings")?.addEventListener("click", () => {
   setSidebar(false);
-  openSheet("settings");
+  showScreen("screen-settings");
 });
+document.getElementById("btn-settings-back")?.addEventListener("click", () => showScreen("screen-home"));
 document.getElementById("set-keys")?.addEventListener("click", () => {
-  closeSheet("settings");
   fillModelList();
   openSheet("model");
 });
