@@ -111,6 +111,12 @@
         <div id="attach-preview" class="attach-preview" hidden></div>
       </footer>
     </section>
+
+    <nav id="tabbar" class="tabbar">
+      <button type="button" class="tab" data-tab="work">干活</button>
+      <button type="button" class="tab" data-tab="rp">人设</button>
+      <button type="button" class="tab" data-tab="chat">闲聊</button>
+    </nav>
   </div>
 
   <div id="sheet-projects" class="sheet" hidden>

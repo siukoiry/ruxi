@@ -1405,3 +1405,23 @@ setSidebar = function(on) {
     /* keep current open state */
   });
 };
+
+
+function markTab(pid) {
+  document.querySelectorAll("#tabbar .tab").forEach(b => {
+    b.classList.toggle("on", b.dataset.tab === pid);
+  });
+}
+document.querySelectorAll("#tabbar .tab").forEach(b => {
+  b.onclick = () => openProjectFromHome(b.dataset.tab);
+});
+const _open = openProjectFromHome;
+openProjectFromHome = function(pid) {
+  _open(pid);
+  markTab(pid);
+};
+const _home = showHome;
+showHome = function() {
+  _home();
+  document.querySelectorAll("#tabbar .tab").forEach(b => b.classList.remove("on"));
+};

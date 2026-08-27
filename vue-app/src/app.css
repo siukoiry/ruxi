@@ -801,3 +801,21 @@ body[data-mode="box"] #btn-plus { display: none !important; }
   color: #5b463e; margin: 0 0 8px -8px; border-radius: 14px;
 }
 .topbar .back-btn { margin: 0; color: inherit; }
+
+.tabbar {
+  display: none;
+  flex-shrink: 0;
+  background: #f4ebe3;
+  border-top: 1px solid #e4d5cb;
+  padding: 6px 8px calc(8px + env(safe-area-inset-bottom));
+  grid-template-columns: 1fr 1fr 1fr;
+}
+body:has(#screen-home.on) .tabbar,
+body:has(#screen-chat.on) .tabbar { display: grid; }
+.tab {
+  appearance: none; border: 0; background: transparent;
+  padding: 10px 0 8px; font-size: 12px; color: #8a7468;
+  border-radius: 14px;
+}
+.tab.on { color: #3b2f29; font-weight: 600; }
+#screen-home { padding-bottom: 12px; }
