@@ -979,3 +979,19 @@ body:has(#screen-list.on) .tabbar { display: grid; }
   color: #f6f1eb !important;
 }
 .tabbar { background: #f3eee8 !important; border-top-color: #e7dfd6 !important; }
+
+.proj-tabs button.on,
+.sheet-card .primary,
+.thread.on {
+  background: #d8cfc6 !important;
+  color: #2c2623 !important;
+}
+.thread,
+.thread strong,
+.thread span,
+.rename, .del {
+  color: #2c2623 !important;
+}
+.thread {
+  background: #efe8e1 !important;
+}
