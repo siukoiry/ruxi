@@ -520,10 +520,15 @@ button, .project, .thread, .icon-btn, .send, .ghost, .primary, .model-chip, .too
   user-select: none;
   transition: transform 80ms ease-out, background-color 80ms ease-out, filter 80ms ease-out;
 }
-button.pressed, .project.pressed, .thread.pressed {
-  transform: scale(0.94);
-  filter: brightness(1.18);
+button.pressed, .project.pressed, .thread.pressed,
+.home-card.pressed, .set-row.pressed, .sidebar-item.pressed, .side-win.pressed {
+  transform: scale(0.97);
+  filter: brightness(0.96);
 }
+button, .home-card, .set-row, .sidebar-item, .side-win, .menu-btn {
+  transition: transform .16s cubic-bezier(.22,1,.36,1), filter .16s ease, background-color .16s ease;
+}
+
 .sheet:not([hidden]) .sheet-bg { animation: fadeIn 0.16s ease; }
 .sheet:not([hidden]) .sheet-card { animation: rise 0.2s cubic-bezier(0.22, 1, 0.36, 1); }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

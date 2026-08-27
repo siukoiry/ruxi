@@ -1287,7 +1287,7 @@ function renderPromptChips() {
 }
 
 function pressTarget(e) {
-  return e.target.closest("button, .project, .thread");
+  return e.target.closest("button, .project, .thread, .home-card, .set-row, .sidebar-item, .side-win, .menu-btn");
 }
 document.addEventListener("pointerdown", e => {
   const el = pressTarget(e);
