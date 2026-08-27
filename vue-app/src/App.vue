@@ -27,9 +27,30 @@
     </div>
   </div>
   <div id="app">
-    <section id="screen-chat" class="screen on">
+    <section id="screen-home" class="screen on">
+      <div class="home-head">
+        <p class="home-kicker">今天</p>
+        <h1 class="home-title">从哪进</h1>
+      </div>
+      <div class="home-grid">
+        <button type="button" class="home-card" data-open="work">
+          <span class="home-card-label">干活</span>
+          <span class="home-card-sub">把事情做完</span>
+        </button>
+        <button type="button" class="home-card tall" data-open="rp">
+          <span class="home-card-label">人设</span>
+          <span class="home-card-sub">进去演</span>
+        </button>
+        <button type="button" class="home-card" data-open="chat">
+          <span class="home-card-label">闲聊</span>
+          <span class="home-card-sub">随便说</span>
+        </button>
+      </div>
+    </section>
+    <section id="screen-chat" class="screen">
       <header class="topbar">
         <div class="top-row">
+          <button type="button" class="ghost" id="btn-home">首页</button>
           <button type="button" class="ghost" id="btn-projects">项目</button>
           <div class="top-actions">
             <button type="button" class="ghost" id="btn-new-in-chat">新开</button>

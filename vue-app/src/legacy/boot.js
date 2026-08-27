@@ -1,3 +1,30 @@
+
+function showHome() {
+  document.getElementById("screen-home").classList.add("on");
+  document.getElementById("screen-chat").classList.remove("on");
+}
+function openProjectFromHome(pid) {
+  state.project = pid;
+  setPlus();
+  const list = threadsOf(pid);
+  if (list[0]) openThread(list[0].id);
+  else newThread(false);
+  document.getElementById("screen-home").classList.remove("on");
+  document.getElementById("screen-chat").classList.add("on");
+}
+document.querySelectorAll("[data-open]").forEach(btn => {
+  btn.onclick = () => openProjectFromHome(btn.dataset.open);
+});
+const homeBtn = document.getElementById("btn-home");
+if (homeBtn) homeBtn.onclick = showHome;
+const splashEl = document.getElementById("splash");
+if (splashEl) {
+  const done = () => { splashEl.classList.add("gone"); showHome(); };
+  const enter = document.getElementById("splash-enter");
+  if (enter) enter.addEventListener("click", ev => { ev.stopPropagation(); done(); });
+  splashEl.addEventListener("click", done);
+}
+
 /* legacy boot — full original app */
 const DEMO_STREAM = [
   { type: "scene", no: "03", time: "8月26日 18:42", place: "海口·秀英区 出租屋", weather: "台风 阵风12级", who: ["林晚（你）"], beat: "窗外铁皮在响，灯闪了两下" },
@@ -1290,7 +1317,7 @@ if (window.visualViewport) {
 
 const splash = document.getElementById("splash");
 if (splash) {
-  const closeSplash = () => splash.classList.add("gone");
+  const closeSplash = () => { splash.classList.add("gone"); showHome(); };
   const enter = document.getElementById("splash-enter");
   if (enter) enter.addEventListener("click", ev => { ev.stopPropagation(); closeSplash(); });
   splash.addEventListener("click", closeSplash);
