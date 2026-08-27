@@ -758,3 +758,13 @@ body[data-mode="box"] #btn-plus { display: none !important; }
 }
 .sidebar-item:active { background: #eadfd6; }
 .sidebar-foot { margin-top: auto; padding-top: 12px; border-top: 1px solid #e4d5cb; }
+
+.side-wins { padding: 0 0 8px 10px; }
+.side-win {
+  appearance: none; border: 0; background: transparent;
+  display: block; width: 100%; text-align: left;
+  padding: 10px 12px; border-radius: 12px;
+  font-size: 14px; color: #6a574e;
+}
+.side-win:active { background: #eadfd6; }
+.side-mod.open .side-mod-btn { background: #eadfd6; }

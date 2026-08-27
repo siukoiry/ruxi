@@ -1335,13 +1335,63 @@ function setSidebar(on) {
 document.getElementById("btn-menu")?.addEventListener("click", () => setSidebar(true));
 document.getElementById("btn-menu-chat")?.addEventListener("click", () => setSidebar(true));
 document.getElementById("sidebar-bg")?.addEventListener("click", () => setSidebar(false));
-document.querySelectorAll("[data-side]").forEach(btn => {
+
+
+function fillSideWins(pid) {
+  const box = document.getElementById("side-wins-" + pid);
+  if (!box) return;
+  const list = threadsOf(pid);
+  if (!list.length) {
+    box.innerHTML = '<p class="empty" style="margin:4px 12px">还没有窗口</p>';
+    return;
+  }
+  box.innerHTML = list.map(th =>
+    '<button type="button" class="side-win" data-tid="' + th.id + '">' +
+    (th.pinned ? "钉 · " : "") + escapeHtml(th.title || "新窗口") +
+    "</button>"
+  ).join("");
+  box.querySelectorAll("[data-tid]").forEach(b => {
+    b.onclick = () => {
+      setSidebar(false);
+      openThread(b.dataset.tid);
+      document.getElementById("screen-home").classList.remove("on");
+      document.getElementById("screen-chat").classList.add("on");
+    };
+  });
+}
+document.querySelectorAll("[data-toggle]").forEach(btn => {
   btn.onclick = () => {
-    const k = btn.dataset.side;
-    setSidebar(false);
-    if (k === "work" || k === "rp" || k === "chat") openProjectFromHome(k);
-    else if (k === "windows") { renderProjTabs(); renderThreadList(); openSheet("projects"); }
-    else if (k === "keys") { fillModelList(); openSheet("model"); }
-    else if (k === "settings") openSheet("projects");
+    const pid = btn.dataset.toggle;
+    const mod = btn.closest(".side-mod");
+    const open = !mod.classList.contains("open");
+    document.querySelectorAll(".side-mod").forEach(m => {
+      m.classList.remove("open");
+      const w = m.querySelector(".side-wins");
+      if (w) w.hidden = true;
+    });
+    if (open) {
+      mod.classList.add("open");
+      const box = document.getElementById("side-wins-" + pid);
+      box.hidden = false;
+      fillSideWins(pid);
+    }
   };
 });
+document.getElementById("side-settings")?.addEventListener("click", () => {
+  setSidebar(false);
+  openSheet("settings");
+});
+document.getElementById("set-keys")?.addEventListener("click", () => {
+  closeSheet("settings");
+  fillModelList();
+  openSheet("model");
+});
+document.getElementById("set-export")?.addEventListener("click", () => exportAll());
+document.getElementById("set-import")?.addEventListener("click", () => document.getElementById("import-file").click());
+const _setSb = setSidebar;
+setSidebar = function(on) {
+  _setSb(on);
+  if (on) document.querySelectorAll("[data-toggle]").forEach(b => {
+    /* keep current open state */
+  });
+};

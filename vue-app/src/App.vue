@@ -205,17 +205,35 @@
   </div>
 
   
+    
+  <div id="sheet-settings" class="sheet" hidden>
+    <div class="sheet-bg" data-close="settings"></div>
+    <div class="sheet-card">
+      <p class="sheet-title">设置</p>
+      <button type="button" class="sidebar-item" id="set-keys">钥匙</button>
+      <button type="button" class="sidebar-item" id="set-export">导出记录</button>
+      <button type="button" class="sidebar-item" id="set-import">导入记录</button>
+    </div>
+  </div>
+
     <aside id="sidebar" class="sidebar" hidden>
       <div class="sidebar-bg" id="sidebar-bg"></div>
       <div class="sidebar-panel">
         <p class="sidebar-kicker">目录</p>
-        <button type="button" class="sidebar-item" data-side="work">干活</button>
-        <button type="button" class="sidebar-item" data-side="rp">人设</button>
-        <button type="button" class="sidebar-item" data-side="chat">闲聊</button>
-        <button type="button" class="sidebar-item" data-side="windows">窗口</button>
-        <button type="button" class="sidebar-item" data-side="keys">钥匙</button>
+        <div class="side-mod" data-mod="work">
+          <button type="button" class="sidebar-item side-mod-btn" data-toggle="work">干活</button>
+          <div class="side-wins" id="side-wins-work" hidden></div>
+        </div>
+        <div class="side-mod" data-mod="rp">
+          <button type="button" class="sidebar-item side-mod-btn" data-toggle="rp">人设</button>
+          <div class="side-wins" id="side-wins-rp" hidden></div>
+        </div>
+        <div class="side-mod" data-mod="chat">
+          <button type="button" class="sidebar-item side-mod-btn" data-toggle="chat">闲聊</button>
+          <div class="side-wins" id="side-wins-chat" hidden></div>
+        </div>
         <div class="sidebar-foot">
-          <button type="button" class="sidebar-item" data-side="settings">设置</button>
+          <button type="button" class="sidebar-item" id="side-settings">设置</button>
         </div>
       </div>
     </aside>
