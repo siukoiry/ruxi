@@ -2,6 +2,8 @@
 function showHome() {
   document.getElementById("screen-home").classList.add("on");
   document.getElementById("screen-chat").classList.remove("on");
+  const set = document.getElementById("screen-settings");
+  if (set) set.classList.remove("on");
 }
 function openProjectFromHome(pid) {
   state.project = pid;
@@ -11,6 +13,8 @@ function openProjectFromHome(pid) {
   else newThread(false);
   document.getElementById("screen-home").classList.remove("on");
   document.getElementById("screen-chat").classList.add("on");
+  const set = document.getElementById("screen-settings");
+  if (set) set.classList.remove("on");
 }
 document.querySelectorAll("[data-open]").forEach(btn => {
   btn.onclick = () => openProjectFromHome(btn.dataset.open);
