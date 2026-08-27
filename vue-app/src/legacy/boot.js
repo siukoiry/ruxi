@@ -1477,8 +1477,6 @@ document.getElementById("list-add")?.addEventListener("submit", e => {
   input.value = "";
   renderList();
 });
-const _mark = markTab;
-const _open = openProjectFromHome;
 document.querySelectorAll("#tabbar .tab").forEach(b => {
   b.onclick = () => {
     if (b.dataset.tab === "list") {
