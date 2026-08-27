@@ -29,6 +29,9 @@
   <div id="app">
     <section id="screen-home" class="screen on">
       <div class="home-head">
+        <button type="button" class="menu-btn" id="btn-menu" aria-label="菜单">
+          <span></span><span></span><span></span>
+        </button>
         <p class="home-kicker">今天</p>
         <h1 class="home-title">从哪进</h1>
       </div>
@@ -50,6 +53,9 @@
     <section id="screen-chat" class="screen">
       <header class="topbar">
         <div class="top-row">
+          <button type="button" class="menu-btn dark" id="btn-menu-chat" aria-label="菜单">
+            <span></span><span></span><span></span>
+          </button>
           <button type="button" class="ghost" id="btn-home">首页</button>
           <button type="button" class="ghost" id="btn-projects">项目</button>
           <div class="top-actions">
@@ -198,7 +204,23 @@
     </div>
   </div>
 
-  <div id="call-layer" class="call-layer" hidden>
+  
+    <aside id="sidebar" class="sidebar" hidden>
+      <div class="sidebar-bg" id="sidebar-bg"></div>
+      <div class="sidebar-panel">
+        <p class="sidebar-kicker">目录</p>
+        <button type="button" class="sidebar-item" data-side="work">干活</button>
+        <button type="button" class="sidebar-item" data-side="rp">人设</button>
+        <button type="button" class="sidebar-item" data-side="chat">闲聊</button>
+        <button type="button" class="sidebar-item" data-side="windows">窗口</button>
+        <button type="button" class="sidebar-item" data-side="keys">钥匙</button>
+        <div class="sidebar-foot">
+          <button type="button" class="sidebar-item" data-side="settings">设置</button>
+        </div>
+      </div>
+    </aside>
+
+    <div id="call-layer" class="call-layer" hidden>
     <p class="call-kicker">来电</p>
     <div class="call-avatar">同</div>
     <h2 id="call-name">海口同城会</h2>

@@ -1322,3 +1322,26 @@ if (splash) {
   if (enter) enter.addEventListener("click", ev => { ev.stopPropagation(); closeSplash(); });
   splash.addEventListener("click", closeSplash);
 }
+
+
+function setSidebar(on) {
+  const bar = document.getElementById("sidebar");
+  if (!bar) return;
+  bar.hidden = !on;
+  bar.classList.toggle("open", on);
+  document.querySelectorAll(".menu-btn").forEach(b => b.classList.toggle("open", on));
+  if (on) requestAnimationFrame(() => bar.classList.add("open"));
+}
+document.getElementById("btn-menu")?.addEventListener("click", () => setSidebar(true));
+document.getElementById("btn-menu-chat")?.addEventListener("click", () => setSidebar(true));
+document.getElementById("sidebar-bg")?.addEventListener("click", () => setSidebar(false));
+document.querySelectorAll("[data-side]").forEach(btn => {
+  btn.onclick = () => {
+    const k = btn.dataset.side;
+    setSidebar(false);
+    if (k === "work" || k === "rp" || k === "chat") openProjectFromHome(k);
+    else if (k === "windows") { renderProjTabs(); renderThreadList(); openSheet("projects"); }
+    else if (k === "keys") { fillModelList(); openSheet("model"); }
+    else if (k === "settings") openSheet("projects");
+  };
+});
