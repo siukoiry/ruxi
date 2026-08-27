@@ -793,3 +793,11 @@ body[data-mode="box"] #btn-plus { display: none !important; }
 }
 .set-row-t { font-size: 17px; font-weight: 560; }
 .set-row-s { font-size: 13px; color: #8a7468; }
+
+.back-btn {
+  appearance: none; border: 0; background: transparent;
+  width: 42px; height: 42px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #5b463e; margin: 0 0 8px -8px; border-radius: 14px;
+}
+.topbar .back-btn { margin: 0; color: inherit; }

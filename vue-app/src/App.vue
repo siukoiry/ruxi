@@ -53,7 +53,7 @@
 
     <section id="screen-settings" class="screen">
       <div class="home-head">
-        <button type="button" class="ghost set-back" id="btn-settings-back">返回</button>
+        <button type="button" class="back-btn" id="btn-settings-back" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <p class="home-kicker">系统</p>
         <h1 class="home-title">设置</h1>
       </div>
@@ -78,7 +78,7 @@
           <button type="button" class="menu-btn dark" id="btn-menu-chat" aria-label="菜单">
             <span></span><span></span><span></span>
           </button>
-          <button type="button" class="ghost" id="btn-home">首页</button>
+          <button type="button" class="back-btn" id="btn-home" aria-label="返回首页"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button type="button" class="ghost" id="btn-projects">项目</button>
           <div class="top-actions">
             <button type="button" class="ghost" id="btn-new-in-chat">新开</button>
