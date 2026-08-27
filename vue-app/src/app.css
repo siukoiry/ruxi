@@ -625,11 +625,13 @@ body[data-mode="box"] #btn-plus { display: none !important; }
   position: relative;
   width: min(100%, 340px);
   text-align: center;
-  animation: splashIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .splash-mark {
   width: 148px; height: 186px;
   display: block; margin: 0 auto 18px;
+  transform-origin: 50% 80%;
+  animation: splashGrow 1.4s cubic-bezier(0.22, 1, 0.36, 1) both,
+             splashFloat 4.8s ease-in-out 1.2s infinite;
 }
 .splash-sign {
   margin: 0 0 22px;
@@ -637,6 +639,7 @@ body[data-mode="box"] #btn-plus { display: none !important; }
   letter-spacing: 0.18em;
   font-weight: 400;
   color: #6a4e55;
+  animation: splashIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) .45s both;
 }
 .splash-enter {
   appearance: none; border: 1px solid #e2c9c4;
@@ -645,18 +648,33 @@ body[data-mode="box"] #btn-plus { display: none !important; }
   padding: 11px 28px;
   font-size: 14px;
   letter-spacing: 0.16em;
+  animation: splashIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) .7s both;
 }
 .splash-orn {
-  position: absolute; width: 72px; height: 72px; pointer-events: none; opacity: .55;
+  position: absolute; width: 72px; height: 72px; pointer-events: none; opacity: 0;
   background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'%3E%3Cpath d='M8 64C8 40 18 28 36 28c0 0 2 10-4 16 12-2 22 6 22 20' fill='none' stroke='%23c9a3a8' stroke-width='1.2'/%3E%3Ccircle cx='20' cy='52' r='1.2' fill='%23c9a3a8'/%3E%3C/svg%3E");
+  animation: splashLeaf 1.6s ease .2s both;
 }
-.splash-orn-tl { top: 10px; left: 8px; transform: scaleX(-1); }
-.splash-orn-tr { top: 10px; right: 8px; }
-.splash-orn-bl { bottom: 10px; left: 8px; transform: scale(-1,-1); }
-.splash-orn-br { bottom: 10px; right: 8px; transform: scaleY(-1); }
+.splash-orn-tl { top: 10px; left: 8px; transform: scaleX(-1); animation-delay: .15s; }
+.splash-orn-tr { top: 10px; right: 8px; animation-delay: .28s; }
+.splash-orn-bl { bottom: 10px; left: 8px; transform: scale(-1,-1); animation-delay: .4s; }
+.splash-orn-br { bottom: 10px; right: 8px; transform: scaleY(-1); animation-delay: .52s; }
 @keyframes splashIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: none; }
+}
+@keyframes splashGrow {
+  from { opacity: 0; transform: scale(.84); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes splashFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes splashLeaf {
+  from { opacity: 0; transform: scale(.6); }
+  to { opacity: .55; }
+
 }
 
 #screen-home {
