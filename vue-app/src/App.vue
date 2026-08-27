@@ -37,9 +37,9 @@
           <span class="home-card-label">干活</span>
           <span class="home-card-sub">把事情做完</span>
         </button>
-        <button type="button" class="home-card tall" data-open="rp">
+        <button type="button" class="home-card" data-open="rp">
           <span class="home-card-label">人设</span>
-          <span class="home-card-sub">进去演</span>
+          <span class="home-card-sub">玩的开心</span>
         </button>
         <button type="button" class="home-card" data-open="chat">
           <span class="home-card-label">闲聊</span>

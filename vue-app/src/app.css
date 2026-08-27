@@ -697,7 +697,6 @@ body[data-mode="box"] #btn-plus { display: none !important; }
   justify-content: flex-end;
   gap: 6px;
 }
-.home-card.tall { grid-column: 1 / -1; min-height: 168px; background: #f3d9cc; }
 .home-card-label { font-size: 22px; font-weight: 560; }
 .home-card-sub { font-size: 13px; color: #8a7468; }
 .home-card.pressed { transform: scale(.98); }
