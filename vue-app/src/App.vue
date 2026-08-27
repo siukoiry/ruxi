@@ -225,13 +225,6 @@
       <p id="api-status" class="hint"></p>
     </div>
   </div>
-<div class="sheet-card">
-      <p class="sheet-title">设置</p>
-      <button type="button" class="sidebar-item" id="set-keys">钥匙</button>
-      <button type="button" class="sidebar-item" id="set-export">导出记录</button>
-      <button type="button" class="sidebar-item" id="set-import">导入记录</button>
-    </div>
-  </div>
 
     <aside id="sidebar" class="sidebar" hidden>
       <div class="sidebar-bg" id="sidebar-bg"></div>
