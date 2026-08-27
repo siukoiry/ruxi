@@ -1,180 +1,206 @@
 <template>
-  <div class="root" :data-mode="project === 'rp' ? 'phone' : 'box'">
-    <div v-if="showSplash" id="splash" @click="enterApp">
-      <div class="splash-orn splash-orn-tl"></div>
-      <div class="splash-orn splash-orn-tr"></div>
-      <div class="splash-orn splash-orn-bl"></div>
-      <div class="splash-orn splash-orn-br"></div>
-      <div class="splash-card">
-        <svg class="splash-mark" viewBox="0 0 160 200" aria-hidden="true">
-          <path d="M78 18h4v22h-4z" fill="#c9a3a8" />
-          <rect x="52" y="38" width="56" height="88" rx="28" fill="#edcfd4" />
-          <rect x="58" y="44" width="22" height="76" rx="4" fill="#f7e4e6" />
-          <circle cx="76" cy="84" r="2.2" fill="#c4a574" />
-          <ellipse cx="68" cy="148" rx="22" ry="26" fill="#f6f1ec" />
-          <ellipse cx="56" cy="118" rx="7" ry="11" fill="#f6f1ec" />
-          <ellipse cx="86" cy="132" rx="8" ry="6" fill="#f6f1ec" />
-          <ellipse cx="60" cy="96" rx="5" ry="16" fill="#f6f1ec" />
-          <ellipse cx="80" cy="98" rx="4.5" ry="15" fill="#f6f1ec" />
-          <circle cx="63" cy="144" r="1.6" fill="#5a4450" />
-          <circle cx="94" cy="168" r="7" fill="none" stroke="#c4a574" stroke-width="1.6" />
-          <path d="M94 161v-8" stroke="#c4a574" stroke-width="1.4" fill="none" />
-          <path d="M28 186h104" stroke="#e2c9c4" stroke-width="1" />
-        </svg>
-        <p class="splash-sign">门开了一条缝。</p>
-        <button type="button" class="splash-enter" @click.stop="enterApp">进入</button>
-      </div>
-    </div>
+<div class="wrap">
 
+  <div id="splash" aria-hidden="true">
+    <div class="splash-orn splash-orn-tl"></div>
+    <div class="splash-orn splash-orn-tr"></div>
+    <div class="splash-orn splash-orn-bl"></div>
+    <div class="splash-orn splash-orn-br"></div>
+    <div class="splash-card">
+      <svg class="splash-mark" viewBox="0 0 160 200" aria-hidden="true">
+        <path d="M78 18h4v22h-4z" fill="#c9a3a8"/>
+        <rect x="52" y="38" width="56" height="88" rx="28" fill="#edcfd4"/>
+        <rect x="58" y="44" width="22" height="76" rx="4" fill="#f7e4e6"/>
+        <circle cx="76" cy="84" r="2.2" fill="#c4a574"/>
+        <ellipse cx="68" cy="148" rx="22" ry="26" fill="#f6f1ec"/>
+        <ellipse cx="56" cy="118" rx="7" ry="11" fill="#f6f1ec"/>
+        <ellipse cx="86" cy="132" rx="8" ry="6" fill="#f6f1ec"/>
+        <ellipse cx="60" cy="96" rx="5" ry="16" fill="#f6f1ec"/>
+        <ellipse cx="80" cy="98" rx="4.5" ry="15" fill="#f6f1ec"/>
+        <circle cx="63" cy="144" r="1.6" fill="#5a4450"/>
+        <circle cx="94" cy="168" r="7" fill="none" stroke="#c4a574" stroke-width="1.6"/>
+        <path d="M94 161v-8" stroke="#c4a574" stroke-width="1.4" fill="none"/>
+        <path d="M28 186h104" stroke="#e2c9c4" stroke-width="1"/>
+      </svg>
+      <p class="splash-sign">门开了一条缝。</p>
+      <button type="button" class="splash-enter" id="splash-enter">进入</button>
+    </div>
+  </div>
+  <div id="app">
     <section id="screen-chat" class="screen on">
       <header class="topbar">
         <div class="top-row">
-          <button type="button" class="ghost" @click="sheet = 'projects'">项目</button>
+          <button type="button" class="ghost" id="btn-projects">项目</button>
           <div class="top-actions">
-            <button type="button" class="ghost" @click="newThread">新开</button>
+            <button type="button" class="ghost" id="btn-new-in-chat">新开</button>
+            <button type="button" class="ghost" id="btn-demo">示例</button>
           </div>
         </div>
-        <strong class="chat-title" @click="renameCurrent">{{ title }}</strong>
+        <strong id="chat-title" class="chat-title">新窗口</strong>
       </header>
       <main class="view on chat-main">
-        <p v-if="!items.length" class="empty-hint">{{ emptyHint }}</p>
-        <section class="stream" ref="stream">
-          <article v-for="(it, i) in items" :key="i" class="wx-msg" :class="{ me: it.me }">
-            <div class="bubble">{{ it.text }}</div>
-          </article>
-        </section>
+        <p id="empty-hint" class="empty-hint"></p>
+        <section class="stream" id="stream"></section>
       </main>
       <footer class="dock">
-        <form class="composer" @submit.prevent="send">
-          <input v-model="draft" autocomplete="off" placeholder="说一句…" />
+        <div id="prompt-chips" class="prompt-chips"></div>
+        <div id="insert-bar" class="insert-bar" hidden></div>
+        <div class="tools">
+          <button type="button" id="btn-model" class="model-chip">未接模型</button>
+          <button type="button" id="btn-web" class="tool">联网</button>
+        </div>
+        <form id="composer" class="composer">
+          <button type="button" id="btn-plus" class="icon-btn" hidden aria-label="插入"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+          <button type="button" id="btn-file" class="icon-btn" aria-label="上传"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 12.5V17a5 5 0 0 1-10 0V7a3 3 0 1 1 6 0v9.5a1.5 1.5 0 0 1-3 0V8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <input id="file-input" type="file" hidden multiple accept="image/*,.txt,.md,.json,.csv,.pdf" />
+          <input id="user-input" autocomplete="off" placeholder="说一句…" />
+          <button type="button" id="btn-mic" class="icon-btn" aria-label="语音"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" stroke-width="2.2"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
           <button type="submit" class="send" aria-label="发送">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M12 19V5M12 5l-6.5 6.5M12 5l6.5 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-6.5 6.5M12 5l6.5 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </form>
+        <div id="attach-preview" class="attach-preview" hidden></div>
       </footer>
     </section>
+  </div>
 
-    <div v-if="sheet === 'projects'" class="sheet">
-      <div class="sheet-bg" @click="sheet = ''"></div>
-      <div class="sheet-card tall">
-        <p class="sheet-title">项目</p>
-        <div class="proj-tabs">
-          <button
-            v-for="p in projects"
-            :key="p.id"
-            type="button"
-            :class="{ on: project === p.id }"
-            @click="project = p.id"
-          >{{ p.name }}</button>
+  <div id="sheet-projects" class="sheet" hidden>
+    <div class="sheet-bg" data-close="projects"></div>
+    <div class="sheet-card tall">
+      <p class="sheet-title">项目</p>
+      <div class="proj-tabs" id="proj-tabs"></div>
+      <div id="rp-tools" hidden>
+        <label>底层规则（换角色也不丢）</label>
+        <div id="rule-list" class="thread-list"></div>
+        <div class="row">
+          <button type="button" class="ghost" id="btn-new-rule">新规则</button>
+          <button type="button" class="primary sm" id="btn-new-char">新角色卡</button>
         </div>
-        <div class="row" style="margin:10px 0">
-          <button type="button" class="primary sm" @click="newThread">新窗口</button>
-        </div>
-        <div class="thread-list">
-          <p v-if="!threadList.length" class="empty">这个项目还没有窗口。</p>
-          <div v-for="t in threadList" :key="t.id" class="thread-row">
-            <button type="button" class="thread" @click="openThread(t.id); sheet = ''">
-              <strong>{{ t.pinned ? '钉 · ' : '' }}{{ t.title }}</strong>
-            </button>
-            <button type="button" class="del" @click="removeThread(t.id)">删除</button>
-          </div>
-        </div>
+        <div id="char-list" class="thread-list"></div>
+      </div>
+      <div id="prompt-tools">
+        <label>提示词库</label>
+        <div id="prompt-list" class="thread-list"></div>
+        <button type="button" class="ghost wide" id="btn-new-prompt">新提示词</button>
+      </div>
+      <input id="thread-search" placeholder="搜索对话…" />
+      <div class="row" style="margin:10px 0">
+        <button type="button" class="primary sm" id="btn-new-thread">新窗口</button>
+        <button type="button" class="ghost" id="btn-export">导出</button>
+        <button type="button" class="ghost" id="btn-import">导入</button>
+        <input id="import-file" type="file" accept="application/json" hidden />
+      </div>
+      <div class="thread-list" id="thread-list"></div>
+    </div>
+  </div>
+
+  <div id="sheet-prompt" class="sheet" hidden>
+    <div class="sheet-bg" data-close="prompt"></div>
+    <div class="sheet-card">
+      <p class="sheet-title">提示词</p>
+      <label>名称</label>
+      <input id="prompt-name" placeholder="翻译腔 / 检查作业" />
+      <label>内容</label>
+      <textarea id="prompt-body" class="short" placeholder="会插入到输入框"></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="btn-save-prompt">保存</button>
       </div>
     </div>
   </div>
+  <div id="sheet-char" class="sheet" hidden>
+    <div class="sheet-bg" data-close="char"></div>
+    <div class="sheet-card tall">
+      <p class="sheet-title" id="char-sheet-title">角色卡</p>
+      <label>名字</label>
+      <input id="char-name" placeholder="林晚" />
+      <label>人设</label>
+      <textarea id="char-persona" class="short" placeholder="身份、性格、和用户的关系、不能做什么"></textarea>
+      <label>开场白</label>
+      <textarea id="char-greeting" class="short" placeholder="进入窗口时角色先说的话，可空"></textarea>
+      <label>示例对白</label>
+      <textarea id="char-example" class="short" placeholder="用户：…\n角色：…"></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="btn-save-char">保存角色</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sheet-rule" class="sheet" hidden>
+    <div class="sheet-bg" data-close="rule"></div>
+    <div class="sheet-card">
+      <p class="sheet-title" id="rule-sheet-title">规则</p>
+      <label>标题</label>
+      <input id="rule-title" placeholder="例如：对白要短" />
+      <label>内容</label>
+      <textarea id="rule-text" class="short" placeholder="这条要模型记住的话"></textarea>
+      <div class="row">
+        <button type="button" class="primary" id="btn-save-rule">保存这条</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sheet-model" class="sheet" hidden>
+    <div class="sheet-bg" data-close="model"></div>
+    <div class="sheet-card">
+      <p class="sheet-title">钥匙</p>
+      <p class="hint">已保存的在上面，点名称切换。下面是厂商预设。</p>
+      <div id="key-list" class="thread-list"></div>
+      <p class="sheet-title" style="margin-top:14px">预设</p>
+      <div id="model-list" class="model-list"></div>
+      <button type="button" id="btn-open-api" class="ghost wide">新增 / 编辑接口</button>
+    </div>
+  </div>
+
+  <div id="sheet-api" class="sheet" hidden>
+    <div class="sheet-bg" data-close="api"></div>
+    <div class="sheet-card tall">
+      <p class="sheet-title">接口</p>
+      <p class="hint">密钥只存在这台手机。可保存多把，在模型列表里切换。</p><label>这把钥匙的名字</label><input id="api-label" placeholder="家里 DeepSeek" />
+      <label>预设</label>
+      <select id="api-preset"></select>
+      <label>接口地址 Base URL</label>
+      <input id="api-base" placeholder="https://api.deepseek.com/v1" />
+      <label>模型名</label>
+      <input id="api-model" placeholder="deepseek-chat" />
+      <label>API Key</label>
+      <input id="api-key" type="password" placeholder="sk-…" autocomplete="off" />
+      <label>跨域中转（可选）</label>
+      <input id="api-proxy" placeholder="https://your-proxy.com" />
+      <label>人设 / 系统提示</label>
+      <textarea id="api-system" class="short"></textarea>
+      <div class="row">
+        <button id="btn-save-api" class="primary">保存为当前</button>
+        <button id="btn-test-api" class="ghost">测试</button>
+        <button id="btn-clear-api" class="ghost">清除密钥</button>
+      </div>
+      <p id="api-status" class="hint"></p>
+    </div>
+  </div>
+
+  <div id="call-layer" class="call-layer" hidden>
+    <p class="call-kicker">来电</p>
+    <div class="call-avatar">同</div>
+    <h2 id="call-name">海口同城会</h2>
+    <p id="call-sub">微信视频通话</p>
+    <div class="call-actions">
+      <button id="btn-decline" class="round red">拒绝</button>
+      <button id="btn-accept" class="round green">接听</button>
+    </div>
+  </div>
+
+  
+  
+  
+  
+  
+  
+
+</div>
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue'
-import { PROJECTS, deleteThread, getThread, loadDB, threadsOf, uid, upsertThread } from './lib/store.js'
-
-const showSplash = ref(true)
-const sheet = ref('')
-const project = ref('chat')
-const threadId = ref(null)
-const title = ref('新窗口')
-const draft = ref('')
-const items = ref([])
-const stream = ref(null)
-const projects = PROJECTS
-
-const emptyHint = computed(() => ({
-  work: '干活窗口。直接打字。',
-  chat: '闲聊窗口。',
-  rp: '人设窗口。'
-}[project.value]))
-
-const threadList = computed(() => threadsOf(project.value))
-
-function enterApp() { showSplash.value = false }
-
-function persistItems() {
-  const th = getThread(threadId.value)
-  if (!th) return
-  th.items = items.value
-  th.title = title.value
-  th.updated = Date.now()
-  upsertThread(th)
-}
-
-function openThread(id) {
-  const th = getThread(id)
-  if (!th) return
-  threadId.value = th.id
-  project.value = th.project
-  title.value = th.title
-  items.value = (th.items || []).map(it => ({
-    kind: it.kind || 'plain',
-    me: !!it.me,
-    text: it.text || ''
-  }))
-  nextTick(() => { if (stream.value) stream.value.scrollTop = stream.value.scrollHeight })
-}
-
-function newThread() {
-  const th = { id: uid(), project: project.value, title: '新窗口', items: [], updated: Date.now() }
-  upsertThread(th)
-  openThread(th.id)
-  sheet.value = ''
-}
-
-function removeThread(id) {
-  deleteThread(id)
-  if (threadId.value === id) newThread()
-}
-
-function renameCurrent() {
-  if (!threadId.value) return
-  const name = prompt('窗口名字', title.value)
-  if (!name || !name.trim()) return
-  title.value = name.trim().slice(0, 24)
-  persistItems()
-}
-
-function send() {
-  const text = draft.value.trim()
-  if (!text) return
-  items.value.push({ kind: 'plain', me: true, text })
-  if (title.value === '新窗口') title.value = text.slice(0, 16)
-  draft.value = ''
-  persistItems()
-  const fallback = {
-    work: '还没接模型。接口面板下一轮补进 Vue。',
-    chat: '先聊着。模型面板下一轮迁过来。',
-    rp: '模型还没接。人设卡片下一轮补进 Vue。'
-  }[project.value]
-  setTimeout(() => {
-    items.value.push({ kind: 'plain', me: false, text: fallback })
-    persistItems()
-    nextTick(() => { if (stream.value) stream.value.scrollTop = stream.value.scrollHeight })
-  }, 280)
-}
-
-onMounted(() => {
-  const last = loadDB().threads.sort((a, b) => b.updated - a.updated)[0]
-  if (last) openThread(last.id)
-  else newThread()
+import { onMounted } from "vue"
+onMounted(async () => {
+  await import("./legacy/boot.js")
 })
 </script>
