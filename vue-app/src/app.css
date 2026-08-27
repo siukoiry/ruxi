@@ -899,3 +899,25 @@ body:has(#screen-list.on) .tabbar { display: grid; }
 .list-row span { flex: 1; font-family: "Noto Serif SC", serif; color: #3b2f29; }
 .list-row.done span { color: #9a847a; text-decoration: line-through; }
 .list-row .x { border: 0; background: transparent; color: #9a847a; font-size: 18px; }
+
+#screen-chat,
+#screen-chat .chat-main,
+#screen-chat .stream,
+#screen-chat .topbar {
+  background: #efe4d8 !important;
+  color: #3b2f29;
+}
+#screen-chat .topbar,
+#screen-chat .chat-title,
+#screen-chat .ghost {
+  color: #3b2f29 !important;
+}
+#screen-chat .wx-msg .bubble {
+  background: #f7efe7;
+  color: #3b2f29;
+}
+#screen-chat .wx-msg.me .bubble {
+  background: #e8d4c8;
+  color: #3b2f29;
+}
+#screen-chat .empty-hint { color: #8a7468; }
